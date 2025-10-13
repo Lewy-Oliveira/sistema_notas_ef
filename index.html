@@ -10,6 +10,7 @@
             --secondary: #3498db;
             --success: #27ae60;
             --danger: #e74c3c;
+            --warning: #f39c12;
             --light: #ecf0f1;
             --dark: #34495e;
         }
@@ -104,6 +105,8 @@
             font-size: 16px;
             font-weight: 600;
             transition: background-color 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
         
         .btn:hover {
@@ -124,6 +127,14 @@
         
         .btn-danger:hover {
             background-color: #c0392b;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
         }
         
         table {
@@ -240,6 +251,19 @@
             display: block;
         }
         
+        .nota-final-input {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            border: 2px solid var(--secondary);
+        }
+        
+        .export-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: 4px;
+        }
+        
         @media (max-width: 768px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -256,6 +280,7 @@
         <header>
             <h1>Sistema de Notas de Educação Física</h1>
             <p class="subtitle">Gerenciamento de pontuações por modalidade, idade e sexo</p>
+            <p></p>
             <p class="subtitle"><i>Criado por Lewy Oliveira</i></p>
         </header>
         
@@ -332,8 +357,9 @@
                             <input type="number" id="corrida-50" step="0.01" placeholder="Ex: 7.50">
                         </div>
                         <div class="form-group">
-                            <label for="barra">Barra Fixa (repetições)</label>
-                            <input type="number" id="barra" min="0" step="1" placeholder="Ex: 10">
+                            <label for="barra">Barra Fixa (repetições/segundos)</label>
+                            <input type="number" id="barra" min="0" step="0.01" placeholder="Ex: 10 ou 10.50">
+                            <small>Repetições para homens, segundos para mulheres</small>
                         </div>
                         <div class="form-group">
                             <label for="abdominal">Abdominal (repetições)</label>
@@ -341,7 +367,13 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-success">Calcular Pontuação</button>
+                    <div class="form-group">
+                        <label for="nota-final">Nota Final</label>
+                        <input type="number" id="nota-final" step="0.01" min="0" max="10" class="nota-final-input" readonly>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Salvar Avaliação</button>
+                    <button type="button" class="btn" id="btn-calcular">Calcular Pontuação</button>
                 </form>
                 <div id="resultado-notas" class="resultado"></div>
             </div>
@@ -350,17 +382,25 @@
         <div class="tab-content" id="consulta">
             <div class="card">
                 <h2 class="card-title">Resultados das Avaliações</h2>
+                
+                <div class="export-section">
+                    <h3>Exportar Dados</h3>
+                    <p>Exporte todos os resultados para uma planilha Excel:</p>
+                    <button class="btn btn-warning" id="btn-exportar">Exportar para Excel</button>
+                </div>
+                
                 <table id="tabela-resultados">
                     <thead>
                         <tr>
                             <th>Nome</th>
                             <th>Sexo</th>
-                            <th>Faixa Etária</th>
+                            <th>Idade</th>
                             <th>Corrida 2400m</th>
                             <th>Corrida 50m</th>
                             <th>Barra</th>
                             <th>Abdominal</th>
-                            <th>Média</th>
+                            <th>Nota Final</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody id="corpo-tabela-resultados">
@@ -383,6 +423,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Biblioteca para exportação Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
         // Dados das tabelas de pontuação
@@ -594,6 +637,9 @@
         const conteudoModal = document.getElementById('conteudo-modal');
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
+        const btnCalcular = document.getElementById('btn-calcular');
+        const notaFinalInput = document.getElementById('nota-final');
+        const btnExportar = document.getElementById('btn-exportar');
 
         // Funções de utilidade
         function converterTempoParaSegundos(tempoStr) {
@@ -651,7 +697,32 @@
             return pessoa;
         }
 
-        function salvarNotas(pessoaId, corrida2400, corrida50, barra, abdominal) {
+        function calcularNotaFinal(pessoaId, corrida2400, corrida50, barra, abdominal) {
+            const pessoa = pessoas.find(p => p.id === pessoaId);
+            if (!pessoa) return null;
+            
+            const tempo2400Seg = converterTempoParaSegundos(corrida2400);
+            
+            const pontuacao2400 = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, '2400m', tempo2400Seg);
+            const pontuacao50 = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, '50m', parseFloat(corrida50));
+            const pontuacaoBarra = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, 'barra', parseFloat(barra));
+            const pontuacaoAbdominal = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, 'abdominal', parseInt(abdominal));
+            
+            const pontuacoes = [pontuacao2400, pontuacao50, pontuacaoBarra, pontuacaoAbdominal];
+            const pontuacoesValidas = pontuacoes.filter(p => p !== null);
+            const media = pontuacoesValidas.length > 0 ? 
+                pontuacoesValidas.reduce((a, b) => a + b, 0) / pontuacoesValidas.length : 0;
+            
+            return {
+                pontuacao2400,
+                pontuacao50,
+                pontuacaoBarra,
+                pontuacaoAbdominal,
+                media: parseFloat(media.toFixed(2))
+            };
+        }
+
+        function salvarNotas(pessoaId, corrida2400, corrida50, barra, abdominal, notaFinal) {
             // Remover notas anteriores da mesma pessoa
             notas = notas.filter(nota => nota.pessoaId !== pessoaId);
             
@@ -660,27 +731,13 @@
             
             const tempo2400Seg = converterTempoParaSegundos(corrida2400);
             
-            const pontuacao2400 = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, '2400m', tempo2400Seg);
-            const pontuacao50 = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, '50m', parseFloat(corrida50));
-            const pontuacaoBarra = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, 'barra', parseInt(barra));
-            const pontuacaoAbdominal = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, 'abdominal', parseInt(abdominal));
-            
-            const pontuacoes = [pontuacao2400, pontuacao50, pontuacaoBarra, pontuacaoAbdominal];
-            const pontuacoesValidas = pontuacoes.filter(p => p !== null);
-            const media = pontuacoesValidas.length > 0 ? 
-                pontuacoesValidas.reduce((a, b) => a + b, 0) / pontuacoesValidas.length : 0;
-            
             const nota = {
                 pessoaId,
                 corrida2400: tempo2400Seg,
                 corrida50: corrida50 ? parseFloat(corrida50) : null,
-                barra: barra ? parseInt(barra) : null,
+                barra: barra ? parseFloat(barra) : null,
                 abdominal: abdominal ? parseInt(abdominal) : null,
-                pontuacao2400,
-                pontuacao50,
-                pontuacaoBarra,
-                pontuacaoAbdominal,
-                media: parseFloat(media.toFixed(2))
+                notaFinal: parseFloat(notaFinal) || 0
             };
             
             notas.push(nota);
@@ -727,7 +784,7 @@
             corpoTabelaResultados.innerHTML = '';
             
             if (notas.length === 0) {
-                corpoTabelaResultados.innerHTML = '<tr><td colspan="8" style="text-align: center;">Nenhum resultado disponível</td></tr>';
+                corpoTabelaResultados.innerHTML = '<tr><td colspan="9" style="text-align: center;">Nenhum resultado disponível</td></tr>';
                 return;
             }
             
@@ -739,12 +796,16 @@
                 tr.innerHTML = `
                     <td>${pessoa.nome}</td>
                     <td>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</td>
-                    <td>${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</td>
-                    <td>${nota.corrida2400 ? formatarTempo(nota.corrida2400) : '-'} (${nota.pontuacao2400 !== null ? nota.pontuacao2400.toFixed(2) : '-'})</td>
-                    <td>${nota.corrida50 ? nota.corrida50.toFixed(2) + 's' : '-'} (${nota.pontuacao50 !== null ? nota.pontuacao50.toFixed(2) : '-'})</td>
-                    <td>${nota.barra || '-'} (${nota.pontuacaoBarra !== null ? nota.pontuacaoBarra.toFixed(2) : '-'})</td>
-                    <td>${nota.abdominal || '-'} (${nota.pontuacaoAbdominal !== null ? nota.pontuacaoAbdominal.toFixed(2) : '-'})</td>
-                    <td>${nota.media.toFixed(2)}</td>
+                    <td>${pessoa.idade}</td>
+                    <td>${nota.corrida2400 ? formatarTempo(nota.corrida2400) : '-'}</td>
+                    <td>${nota.corrida50 ? nota.corrida50.toFixed(2) + 's' : '-'}</td>
+                    <td>${nota.barra ? nota.barra.toFixed(2) + (pessoa.sexo === 'F' ? 's' : ' reps') : '-'}</td>
+                    <td>${nota.abdominal || '-'}</td>
+                    <td>${nota.notaFinal.toFixed(2)}</td>
+                    <td class="actions">
+                        <button class="btn" onclick="verDetalhes('${pessoa.id}')">Detalhes</button>
+                        <button class="btn btn-danger" onclick="removerNota('${pessoa.id}')">Remover</button>
+                    </td>
                 `;
                 corpoTabelaResultados.appendChild(tr);
             });
@@ -758,6 +819,40 @@
             setTimeout(() => {
                 elemento.style.display = 'none';
             }, 5000);
+        }
+
+        function exportarParaExcel() {
+            if (notas.length === 0) {
+                alert('Não há dados para exportar!');
+                return;
+            }
+
+            // Preparar dados para exportação
+            const dadosExportacao = notas.map(nota => {
+                const pessoa = pessoas.find(p => p.id === nota.pessoaId);
+                if (!pessoa) return null;
+
+                return {
+                    'Nome': pessoa.nome,
+                    'Sexo': pessoa.sexo === 'M' ? 'Masculino' : 'Feminino',
+                    'Idade': pessoa.idade,
+                    'Faixa Etária': pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos',
+                    'Corrida 2400m': nota.corrida2400 ? formatarTempo(nota.corrida2400) : '-',
+                    'Corrida 50m': nota.corrida50 ? `${nota.corrida50.toFixed(2)}s` : '-',
+                    'Barra': nota.barra ? `${nota.barra.toFixed(2)}${pessoa.sexo === 'F' ? 's' : ' reps'}` : '-',
+                    'Abdominal': nota.abdominal || '-',
+                    'Nota Final': nota.notaFinal.toFixed(2)
+                };
+            }).filter(item => item !== null);
+
+            // Criar planilha
+            const ws = XLSX.utils.json_to_sheet(dadosExportacao);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Resultados Educação Física');
+
+            // Gerar arquivo e fazer download
+            const nomeArquivo = `resultados_educacao_fisica_${new Date().toISOString().split('T')[0]}.xlsx`;
+            XLSX.writeFile(wb, nomeArquivo);
         }
 
         // Funções globais para uso nos eventos
@@ -789,6 +884,59 @@
             }
         };
 
+        window.removerNota = function(pessoaId) {
+            if (confirm('Tem certeza que deseja remover as notas desta pessoa?')) {
+                notas = notas.filter(n => n.pessoaId !== pessoaId);
+                localStorage.setItem('notas', JSON.stringify(notas));
+                atualizarTabelaResultados();
+                mostrarResultado(resultadoNotas, 'Notas removidas com sucesso!', 'success');
+            }
+        };
+
+        window.verDetalhes = function(pessoaId) {
+            const pessoa = pessoas.find(p => p.id === pessoaId);
+            const nota = notas.find(n => n.pessoaId === pessoaId);
+            
+            if (!pessoa || !nota) return;
+            
+            const calculo = calcularNotaFinal(
+                pessoaId, 
+                nota.corrida2400 ? formatarTempo(nota.corrida2400) : '', 
+                nota.corrida50 || '', 
+                nota.barra || '', 
+                nota.abdominal || ''
+            );
+            
+            let detalhes = `<h3>Detalhes da Avaliação - ${pessoa.nome}</h3>`;
+            detalhes += `<p><strong>Sexo:</strong> ${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</p>`;
+            detalhes += `<p><strong>Idade:</strong> ${pessoa.idade} anos</p>`;
+            detalhes += `<p><strong>Faixa Etária:</strong> ${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</p>`;
+            detalhes += `<hr>`;
+            detalhes += `<h4>Desempenho e Pontuação</h4>`;
+            detalhes += `<ul>`;
+            
+            if (nota.corrida2400) {
+                detalhes += `<li><strong>Corrida 2400m:</strong> ${formatarTempo(nota.corrida2400)} - ${calculo.pontuacao2400 ? calculo.pontuacao2400.toFixed(2) + ' pontos' : 'N/A'}</li>`;
+            }
+            if (nota.corrida50) {
+                detalhes += `<li><strong>Corrida 50m:</strong> ${nota.corrida50.toFixed(2)}s - ${calculo.pontuacao50 ? calculo.pontuacao50.toFixed(2) + ' pontos' : 'N/A'}</li>`;
+            }
+            if (nota.barra) {
+                detalhes += `<li><strong>Barra Fixa:</strong> ${nota.barra.toFixed(2)}${pessoa.sexo === 'F' ? ' segundos' : ' repetições'} - ${calculo.pontuacaoBarra ? calculo.pontuacaoBarra.toFixed(2) + ' pontos' : 'N/A'}</li>`;
+            }
+            if (nota.abdominal) {
+                detalhes += `<li><strong>Abdominal:</strong> ${nota.abdominal} repetições - ${calculo.pontuacaoAbdominal ? calculo.pontuacaoAbdominal.toFixed(2) + ' pontos' : 'N/A'}</li>`;
+            }
+            
+            detalhes += `</ul>`;
+            detalhes += `<hr>`;
+            detalhes += `<p><strong>Média Calculada:</strong> ${calculo.media.toFixed(2)}</p>`;
+            detalhes += `<p><strong>Nota Final Registrada:</strong> ${nota.notaFinal.toFixed(2)}</p>`;
+            
+            conteudoModal.innerHTML = detalhes;
+            modal.style.display = 'flex';
+        };
+
         // Event Listeners
         formPessoa.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -810,9 +958,7 @@
             mostrarResultado(resultadoCadastro, 'Pessoa cadastrada com sucesso!', 'success');
         });
 
-        formNotas.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
+        btnCalcular.addEventListener('click', function() {
             const pessoaId = pessoaSelect.value;
             const corrida2400 = document.getElementById('corrida-2400').value;
             const corrida50 = document.getElementById('corrida-50').value;
@@ -824,47 +970,53 @@
                 return;
             }
             
+            const calculo = calcularNotaFinal(pessoaId, corrida2400, corrida50, barra, abdominal);
+            
+            if (calculo) {
+                notaFinalInput.value = calculo.media.toFixed(2);
+                mostrarResultado(resultadoNotas, `Pontuação calculada: ${calculo.media.toFixed(2)}`, 'success');
+            }
+        });
+
+        formNotas.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const pessoaId = pessoaSelect.value;
+            const corrida2400 = document.getElementById('corrida-2400').value;
+            const corrida50 = document.getElementById('corrida-50').value;
+            const barra = document.getElementById('barra').value;
+            const abdominal = document.getElementById('abdominal').value;
+            const notaFinal = document.getElementById('nota-final').value;
+            
+            if (!pessoaId) {
+                mostrarResultado(resultadoNotas, 'Por favor, selecione uma pessoa!', 'error');
+                return;
+            }
+            
             if (!corrida2400 && !corrida50 && !barra && !abdominal) {
                 mostrarResultado(resultadoNotas, 'Por favor, preencha pelo menos um campo de desempenho!', 'error');
                 return;
             }
             
-            const nota = salvarNotas(pessoaId, corrida2400, corrida50, barra, abdominal);
+            if (!notaFinal || parseFloat(notaFinal) === 0) {
+                mostrarResultado(resultadoNotas, 'Por favor, calcule a pontuação primeiro!', 'error');
+                return;
+            }
+            
+            const nota = salvarNotas(pessoaId, corrida2400, corrida50, barra, abdominal, notaFinal);
             
             if (nota) {
                 atualizarTabelaResultados();
                 formNotas.reset();
+                notaFinalInput.value = '';
                 
-                // Exibir detalhes da pontuação
-                const pessoa = pessoas.find(p => p.id === pessoaId);
-                let detalhes = `<h3>Pontuação de ${pessoa.nome}</h3>`;
-                detalhes += `<p><strong>Faixa:</strong> ${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</p>`;
-                detalhes += `<ul>`;
-                
-                if (nota.pontuacao2400 !== null) {
-                    detalhes += `<li><strong>Corrida 2400m:</strong> ${formatarTempo(nota.corrida2400)} - ${nota.pontuacao2400.toFixed(2)} pontos</li>`;
-                }
-                if (nota.pontuacao50 !== null) {
-                    detalhes += `<li><strong>Corrida 50m:</strong> ${nota.corrida50.toFixed(2)}s - ${nota.pontuacao50.toFixed(2)} pontos</li>`;
-                }
-                if (nota.pontuacaoBarra !== null) {
-                    detalhes += `<li><strong>Barra Fixa:</strong> ${nota.barra} repetições - ${nota.pontuacaoBarra.toFixed(2)} pontos</li>`;
-                }
-                if (nota.pontuacaoAbdominal !== null) {
-                    detalhes += `<li><strong>Abdominal:</strong> ${nota.abdominal} repetições - ${nota.pontuacaoAbdominal.toFixed(2)} pontos</li>`;
-                }
-                
-                detalhes += `</ul>`;
-                detalhes += `<p><strong>Média Final:</strong> ${nota.media.toFixed(2)}</p>`;
-                
-                conteudoModal.innerHTML = detalhes;
-                modal.style.display = 'flex';
-                
-                mostrarResultado(resultadoNotas, 'Notas atribuídas com sucesso!', 'success');
+                mostrarResultado(resultadoNotas, 'Avaliação salva com sucesso!', 'success');
             } else {
-                mostrarResultado(resultadoNotas, 'Erro ao salvar as notas!', 'error');
+                mostrarResultado(resultadoNotas, 'Erro ao salvar a avaliação!', 'error');
             }
         });
+
+        btnExportar.addEventListener('click', exportarParaExcel);
 
         // Eventos das abas
         tabs.forEach(tab => {
