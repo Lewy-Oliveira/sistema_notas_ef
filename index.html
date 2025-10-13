@@ -28,7 +28,7 @@
             color: var(--dark);
             line-height: 1.6;
             font-size: 14px;
-            padding-bottom: 60px; /* Espaço para o footer */
+            padding-bottom: 60px;
         }
         
         .container {
@@ -45,7 +45,6 @@
             margin-bottom: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: relative;
         }
         
         h1 {
@@ -90,7 +89,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 16px; /* Mantido 16px para evitar zoom em iOS */
+            font-size: 16px;
             transition: border 0.3s;
         }
         
@@ -113,7 +112,6 @@
             margin-right: 8px;
             margin-bottom: 8px;
             text-align: center;
-            text-decoration: none;
         }
         
         .btn:hover {
@@ -190,43 +188,6 @@
             margin: 2px;
         }
         
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 10px;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .close {
-            font-size: 20px;
-            cursor: pointer;
-            color: var(--dark);
-        }
-        
         .grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -259,8 +220,6 @@
             margin-bottom: 15px;
             border-bottom: 1px solid #ddd;
             overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
         }
         
         .tab {
@@ -284,132 +243,6 @@
             display: block;
         }
         
-        .nota-final-input {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            border: 2px solid var(--secondary);
-        }
-        
-        .export-section {
-            margin-top: 15px;
-            padding: 12px;
-            background-color: var(--light);
-            border-radius: 4px;
-        }
-        
-        .export-section h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-        
-        /* Melhorias para tabelas em mobile */
-        .table-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        /* Layout responsivo para tabela de resultados */
-        .table-resultados-mobile {
-            display: none;
-        }
-        
-        /* Estilos para telas maiores */
-        @media (min-width: 768px) {
-            body {
-                font-size: 16px;
-            }
-            
-            .container {
-                padding: 20px;
-            }
-            
-            header {
-                padding: 20px 0;
-                margin-bottom: 30px;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .card {
-                padding: 25px;
-                margin-bottom: 25px;
-            }
-            
-            .card-title {
-                font-size: 1.4rem;
-                margin-bottom: 20px;
-            }
-            
-            .form-group {
-                margin-bottom: 20px;
-            }
-            
-            .btn {
-                padding: 12px 24px;
-                font-size: 16px;
-                width: auto;
-            }
-            
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-            
-            table {
-                font-size: 1rem;
-            }
-            
-            th, td {
-                padding: 12px 15px;
-            }
-            
-            .actions .btn {
-                font-size: 14px;
-                padding: 8px 12px;
-            }
-        }
-        
-        @media (min-width: 992px) {
-            .grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        
-        /* Ajustes específicos para formulário de notas em mobile */
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .form-actions .btn {
-            flex: 1;
-            min-width: 120px;
-        }
-        
-        /* Melhorar legibilidade em mobile */
-        small {
-            font-size: 0.8rem;
-            color: #666;
-            display: block;
-            margin-top: 4px;
-        }
-        
-        /* Ajustes para inputs em iOS */
-        input[type="number"] {
-            -webkit-appearance: none;
-            -moz-appearance: textfield;
-        }
-        
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        
-        /* Footer com créditos */
         .footer {
             background-color: var(--primary);
             color: white;
@@ -419,96 +252,19 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            font-size: 0.9rem;
         }
         
-        /* Layout alternativo para tabela em mobile */
-        @media (max-width: 767px) {
-            .table-desktop {
-                display: none;
-            }
-            
-            .table-mobile {
-                display: block;
-            }
-            
-            .resultado-item {
-                background: white;
-                border-radius: 8px;
-                padding: 15px;
-                margin-bottom: 10px;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            }
-            
-            .resultado-header {
-                font-weight: bold;
-                margin-bottom: 8px;
-                font-size: 1.1rem;
-                color: var(--primary);
-            }
-            
-            .resultado-detalhes {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-                margin-bottom: 10px;
-            }
-            
-            .resultado-detalhes div {
-                font-size: 0.85rem;
-            }
-            
-            .resultado-detalhes .label {
-                font-weight: bold;
-                color: var(--dark);
-            }
-            
-            .resultado-actions {
-                display: flex;
-                gap: 8px;
-                margin-top: 10px;
-            }
-            
-            .resultado-actions .btn {
-                flex: 1;
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .table-mobile {
-                display: none;
-            }
-            
-            .table-desktop {
-                display: table;
-            }
-        }
-        
-        /* Melhorias específicas para botões em mobile */
-        @media (max-width: 480px) {
-            .actions {
-                flex-direction: column;
-            }
-            
-            .actions .btn {
-                width: 100%;
-                margin: 2px 0;
-            }
-            
-            .resultado-actions {
-                flex-direction: column;
-            }
-        }
-        
-        /* Estilos para a seção de backup */
         .backup-section {
             margin-top: 20px;
             padding: 15px;
             background-color: var(--light);
             border-radius: 4px;
             border-left: 4px solid var(--info);
+        }
+        
+        .backup-section h3 {
+            color: var(--info);
+            margin-bottom: 10px;
         }
         
         .backup-actions {
@@ -518,35 +274,28 @@
             margin-top: 10px;
         }
         
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-        
-        .file-input-wrapper input[type=file] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .file-input-label {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: var(--info);
-            color: white;
+        .export-section {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: var(--light);
             border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
         }
         
-        .file-input-label:hover {
-            background-color: #138496;
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
     </style>
 </head>
@@ -560,12 +309,11 @@
         <div class="tabs">
             <div class="tab active" data-tab="cadastro">Cadastro</div>
             <div class="tab" data-tab="notas">Atribuir Notas</div>
-            <div class="tab" data-tab="consulta">Resultados</div>
+            <div class="tab" data-tab="resultados">Resultados</div>
             <div class="tab" data-tab="backup">Backup</div>
         </div>
         
         <div class="tab-content active" id="cadastro">
-            <!-- Conteúdo do cadastro permanece o mesmo -->
             <div class="card">
                 <h2 class="card-title">Cadastrar Nova Pessoa</h2>
                 <form id="form-pessoa">
@@ -595,7 +343,7 @@
             <div class="card">
                 <h2 class="card-title">Pessoas Cadastradas</h2>
                 <div class="table-container">
-                    <table id="tabela-pessoas" class="table-desktop">
+                    <table id="tabela-pessoas">
                         <thead>
                             <tr>
                                 <th>Nome</th>
@@ -609,17 +357,11 @@
                             <!-- Dados serão inseridos dinamicamente -->
                         </tbody>
                     </table>
-                    
-                    <!-- Layout mobile para pessoas cadastradas -->
-                    <div id="corpo-tabela-pessoas-mobile" class="table-mobile">
-                        <!-- Dados serão inseridos dinamicamente -->
-                    </div>
                 </div>
             </div>
         </div>
         
         <div class="tab-content" id="notas">
-            <!-- Conteúdo de notas permanece o mesmo -->
             <div class="card">
                 <h2 class="card-title">Atribuir Notas</h2>
                 <form id="form-notas">
@@ -640,9 +382,9 @@
                             <input type="number" id="corrida-50" step="0.01" placeholder="Ex: 7.50">
                         </div>
                         <div class="form-group">
-                            <label for="barra">Barra Fixa (repetições/segundos)</label>
-                            <input type="number" id="barra" min="0" step="0.01" placeholder="Ex: 10 ou 10.50">
-                            <small>Repetições para homens, segundos para mulheres</small>
+                            <label for="barra">Barra Fixa</label>
+                            <input type="number" id="barra" min="0" step="0.01" placeholder="Repetições/segundos">
+                            <small style="color:#666; font-size:0.8rem;">Repetições para homens, segundos para mulheres</small>
                         </div>
                         <div class="form-group">
                             <label for="abdominal">Abdominal (repetições)</label>
@@ -652,10 +394,10 @@
                     
                     <div class="form-group">
                         <label for="nota-final">Nota Final</label>
-                        <input type="number" id="nota-final" step="0.01" min="0" max="10" class="nota-final-input" readonly>
+                        <input type="number" id="nota-final" step="0.01" min="0" max="10" readonly style="background-color:#f8f9fa; font-weight:bold;">
                     </div>
                     
-                    <div class="form-actions">
+                    <div>
                         <button type="submit" class="btn btn-success">Salvar Avaliação</button>
                         <button type="button" class="btn" id="btn-calcular">Calcular Pontuação</button>
                     </div>
@@ -664,20 +406,18 @@
             </div>
         </div>
         
-        <div class="tab-content" id="consulta">
-            <!-- Conteúdo de consulta permanece o mesmo -->
+        <div class="tab-content" id="resultados">
             <div class="card">
                 <h2 class="card-title">Resultados das Avaliações</h2>
                 
                 <div class="export-section">
                     <h3>Exportar Dados</h3>
                     <p>Exporte todos os resultados para uma planilha Excel:</p>
-                    <button class="btn btn-warning" id="btn-exportar">Exportar para Excel</button>
+                    <button class="btn btn-warning" id="btn-exportar-excel">Exportar para Excel</button>
                 </div>
                 
                 <div class="table-container">
-                    <!-- Tabela para desktop -->
-                    <table id="tabela-resultados" class="table-desktop">
+                    <table id="tabela-resultados">
                         <thead>
                             <tr>
                                 <th>Nome</th>
@@ -695,11 +435,6 @@
                             <!-- Dados serão inseridos dinamicamente -->
                         </tbody>
                     </table>
-                    
-                    <!-- Layout mobile para resultados -->
-                    <div id="corpo-tabela-resultados-mobile" class="table-mobile">
-                        <!-- Dados serão inseridos dinamicamente -->
-                    </div>
                 </div>
             </div>
         </div>
@@ -709,29 +444,29 @@
                 <h2 class="card-title">Backup e Restauração de Dados</h2>
                 
                 <div class="backup-section">
-                    <h3>Exportar Backup</h3>
-                    <p>Exporte todos os dados do sistema (pessoas e notas) para um arquivo de backup. Este arquivo pode ser usado para restaurar os dados em outro dispositivo ou fazer backup.</p>
+                    <h3>📤 Exportar Backup</h3>
+                    <p>Exporte todos os dados do sistema (pessoas cadastradas e notas) para um arquivo de backup. Este arquivo pode ser usado para:</p>
+                    <ul style="margin: 10px 0 10px 20px;">
+                        <li>Fazer backup dos seus dados</li>
+                        <li>Compartilhar dados entre dispositivos</li>
+                        <li>Transferir dados para outro computador</li>
+                    </ul>
                     <div class="backup-actions">
                         <button class="btn btn-info" id="btn-exportar-backup">Exportar Backup</button>
                     </div>
                 </div>
                 
                 <div class="backup-section">
-                    <h3>Importar Backup</h3>
-                    <p>Importe um arquivo de backup para restaurar os dados. <strong>Atenção:</strong> Isso substituirá todos os dados atuais.</p>
+                    <h3>📥 Importar Backup</h3>
+                    <p>Importe um arquivo de backup para restaurar os dados no sistema. <strong style="color:var(--warning);">Atenção:</strong> Esta ação substituirá todos os dados atuais.</p>
                     <div class="backup-actions">
-                        <div class="file-input-wrapper">
-                            <button class="file-input-label">Selecionar Arquivo de Backup</button>
-                            <input type="file" id="input-backup" accept=".json">
-                        </div>
-                        <button class="btn btn-warning" id="btn-importar-backup" disabled>Importar Backup</button>
+                        <button class="btn btn-warning" id="btn-importar-backup">Importar Backup</button>
                     </div>
-                    <div id="info-arquivo" style="margin-top: 10px; font-size: 0.9rem;"></div>
                 </div>
                 
                 <div class="backup-section">
-                    <h3>Limpar Todos os Dados</h3>
-                    <p>Remova todas as pessoas e notas do sistema. <strong class="btn-danger">Esta ação não pode ser desfeita!</strong></p>
+                    <h3>🗑️ Limpar Todos os Dados</h3>
+                    <p>Remova todas as pessoas e notas do sistema. <strong style="color:var(--danger);">Esta ação não pode ser desfeita!</strong> Use com cuidado.</p>
                     <div class="backup-actions">
                         <button class="btn btn-danger" id="btn-limpar-dados">Limpar Todos os Dados</button>
                     </div>
@@ -742,78 +477,235 @@
         </div>
     </div>
 
-    <!-- Modal para visualizar detalhes -->
-    <div id="modal-detalhes" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Detalhes da Pontuação</h2>
-                <span class="close">&times;</span>
-            </div>
-            <div id="conteudo-modal">
-                <!-- Conteúdo será inserido dinamicamente -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer com créditos -->
     <div class="footer">
         Criado por Lewy Oliveira
     </div>
 
-    <!-- Biblioteca para exportação Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
-        // [Todo o código JavaScript anterior permanece aqui...]
         // Dados das tabelas de pontuação
         const tabelasPontuacao = {
-            // ... (mantido igual)
+            'F': {
+                'mais30': {
+                    '2400m': [
+                        {min: 14*60+48, max: 15*60+34, pontos: 5.00},
+                        {min: 14*60+1, max: 14*60+47, pontos: 6.00},
+                        {min: 14*60, max: 14*60, pontos: 7.00},
+                        {min: 13*60+37, max: 13*60+59, pontos: 7.50},
+                        {min: 13*60+14, max: 13*60+36, pontos: 8.00},
+                        {min: 12*60+51, max: 13*60+13, pontos: 8.50},
+                        {min: 12*60+28, max: 12*60+50, pontos: 9.00},
+                        {min: 12*60+2, max: 12*60+27, pontos: 9.50},
+                        {min: 0, max: 12*60+1, pontos: 10.00}
+                    ],
+                    '50m': [
+                        {min: 8.71, max: 8.90, pontos: 5.00},
+                        {min: 8.51, max: 8.70, pontos: 6.00},
+                        {min: 8.50, max: 8.50, pontos: 7.00},
+                        {min: 8.40, max: 8.49, pontos: 7.50},
+                        {min: 8.30, max: 8.39, pontos: 8.00},
+                        {min: 8.20, max: 8.29, pontos: 8.50},
+                        {min: 8.10, max: 8.19, pontos: 9.00},
+                        {min: 8.00, max: 8.09, pontos: 9.50},
+                        {min: 0, max: 7.99, pontos: 10.00}
+                    ],
+                    'barra': [
+                        {min: 8.00, max: 8.99, pontos: 5.00},
+                        {min: 9.00, max: 9.99, pontos: 6.00},
+                        {min: 10.00, max: 10.99, pontos: 7.00},
+                        {min: 11.00, max: 14.99, pontos: 7.50},
+                        {min: 15.00, max: 18.99, pontos: 8.00},
+                        {min: 19.00, max: 22.99, pontos: 8.50},
+                        {min: 23.00, max: 26.99, pontos: 9.00},
+                        {min: 27.00, max: 30.99, pontos: 9.50},
+                        {min: 31.00, max: 999, pontos: 10.00}
+                    ],
+                    'abdominal': [
+                        {min: 36, max: 36, pontos: 5.00},
+                        {min: 37, max: 39, pontos: 6.00},
+                        {min: 40, max: 40, pontos: 7.00},
+                        {min: 41, max: 43, pontos: 7.50},
+                        {min: 44, max: 46, pontos: 8.00},
+                        {min: 47, max: 49, pontos: 8.50},
+                        {min: 50, max: 52, pontos: 9.00},
+                        {min: 53, max: 55, pontos: 9.50},
+                        {min: 56, max: 999, pontos: 10.00}
+                    ]
+                },
+                'ate30': {
+                    '2400m': [
+                        {min: 13*60+48, max: 14*60+34, pontos: 5.00},
+                        {min: 13*60+1, max: 13*60+47, pontos: 6.00},
+                        {min: 13*60, max: 13*60, pontos: 7.00},
+                        {min: 12*60+37, max: 12*60+59, pontos: 7.50},
+                        {min: 12*60+14, max: 12*60+36, pontos: 8.00},
+                        {min: 11*60+51, max: 12*60+13, pontos: 8.50},
+                        {min: 11*60+28, max: 11*60+50, pontos: 9.00},
+                        {min: 11*60+2, max: 11*60+27, pontos: 9.50},
+                        {min: 0, max: 11*60+1, pontos: 10.00}
+                    ],
+                    '50m': [
+                        {min: 8.31, max: 8.40, pontos: 5.00},
+                        {min: 8.21, max: 8.30, pontos: 6.00},
+                        {min: 8.20, max: 8.20, pontos: 7.00},
+                        {min: 8.10, max: 8.19, pontos: 7.50},
+                        {min: 8.00, max: 8.09, pontos: 8.00},
+                        {min: 7.90, max: 7.99, pontos: 8.50},
+                        {min: 7.80, max: 7.89, pontos: 9.00},
+                        {min: 7.70, max: 7.79, pontos: 9.50},
+                        {min: 0, max: 7.69, pontos: 10.00}
+                    ],
+                    'barra': [
+                        {min: 9.00, max: 9.99, pontos: 5.00},
+                        {min: 10.00, max: 10.99, pontos: 6.00},
+                        {min: 11.00, max: 11.99, pontos: 7.00},
+                        {min: 12.00, max: 15.99, pontos: 7.50},
+                        {min: 16.00, max: 19.99, pontos: 8.00},
+                        {min: 20.00, max: 23.99, pontos: 8.50},
+                        {min: 24.00, max: 27.99, pontos: 9.00},
+                        {min: 28.00, max: 31.99, pontos: 9.50},
+                        {min: 32.00, max: 999, pontos: 10.00}
+                    ],
+                    'abdominal': [
+                        {min: 40, max: 40, pontos: 5.00},
+                        {min: 41, max: 43, pontos: 6.00},
+                        {min: 44, max: 44, pontos: 7.00},
+                        {min: 45, max: 47, pontos: 7.50},
+                        {min: 48, max: 50, pontos: 8.00},
+                        {min: 51, max: 53, pontos: 8.50},
+                        {min: 54, max: 56, pontos: 9.00},
+                        {min: 57, max: 59, pontos: 9.50},
+                        {min: 60, max: 999, pontos: 10.00}
+                    ]
+                }
+            },
+            'M': {
+                'mais30': {
+                    '2400m': [
+                        {min: 12*60+48, max: 13*60+34, pontos: 5.00},
+                        {min: 12*60+1, max: 12*60+47, pontos: 6.00},
+                        {min: 12*60, max: 12*60, pontos: 7.00},
+                        {min: 11*60+36, max: 11*60+59, pontos: 7.50},
+                        {min: 11*60+12, max: 11*60+35, pontos: 8.00},
+                        {min: 10*60+48, max: 11*60+11, pontos: 8.50},
+                        {min: 10*60+24, max: 10*60+47, pontos: 9.00},
+                        {min: 10*60+1, max: 10*60+23, pontos: 9.50},
+                        {min: 0, max: 10*60, pontos: 10.00}
+                    ],
+                    '50m': [
+                        {min: 7.71, max: 7.90, pontos: 5.00},
+                        {min: 7.51, max: 7.70, pontos: 6.00},
+                        {min: 7.50, max: 7.50, pontos: 7.00},
+                        {min: 7.40, max: 7.49, pontos: 7.50},
+                        {min: 7.30, max: 7.39, pontos: 8.00},
+                        {min: 7.20, max: 7.29, pontos: 8.50},
+                        {min: 7.10, max: 7.19, pontos: 9.00},
+                        {min: 7.00, max: 7.09, pontos: 9.50},
+                        {min: 0, max: 6.99, pontos: 10.00}
+                    ],
+                    'barra': [
+                        {min: 3, max: 3, pontos: 5.00},
+                        {min: 4, max: 4, pontos: 6.00},
+                        {min: 5, max: 5, pontos: 7.00},
+                        {min: 6, max: 7, pontos: 7.50},
+                        {min: 8, max: 9, pontos: 8.00},
+                        {min: 10, max: 11, pontos: 8.50},
+                        {min: 12, max: 13, pontos: 9.00},
+                        {min: 14, max: 15, pontos: 9.50},
+                        {min: 16, max: 999, pontos: 10.00}
+                    ],
+                    'abdominal': [
+                        {min: 42, max: 42, pontos: 5.00},
+                        {min: 43, max: 45, pontos: 6.00},
+                        {min: 46, max: 46, pontos: 7.00},
+                        {min: 47, max: 49, pontos: 7.50},
+                        {min: 50, max: 52, pontos: 8.00},
+                        {min: 53, max: 55, pontos: 8.50},
+                        {min: 56, max: 58, pontos: 9.00},
+                        {min: 59, max: 61, pontos: 9.50},
+                        {min: 62, max: 999, pontos: 10.00}
+                    ]
+                },
+                'ate30': {
+                    '2400m': [
+                        {min: 11*60+48, max: 12*60+34, pontos: 5.00},
+                        {min: 11*60+1, max: 11*60+47, pontos: 6.00},
+                        {min: 11*60, max: 11*60, pontos: 7.00},
+                        {min: 10*60+36, max: 10*60+59, pontos: 7.50},
+                        {min: 10*60+12, max: 10*60+35, pontos: 8.00},
+                        {min: 9*60+48, max: 10*60+11, pontos: 8.50},
+                        {min: 9*60+24, max: 9*60+47, pontos: 9.00},
+                        {min: 9*60+1, max: 9*60+23, pontos: 9.50},
+                        {min: 0, max: 9*60, pontos: 10.00}
+                    ],
+                    '50m': [
+                        {min: 7.61, max: 7.80, pontos: 5.00},
+                        {min: 7.41, max: 7.60, pontos: 6.00},
+                        {min: 7.40, max: 7.40, pontos: 7.00},
+                        {min: 7.30, max: 7.39, pontos: 7.50},
+                        {min: 7.20, max: 7.29, pontos: 8.00},
+                        {min: 7.10, max: 7.19, pontos: 8.50},
+                        {min: 7.00, max: 7.09, pontos: 9.00},
+                        {min: 6.90, max: 6.99, pontos: 9.50},
+                        {min: 0, max: 6.89, pontos: 10.00}
+                    ],
+                    'barra': [
+                        {min: 4, max: 4, pontos: 5.00},
+                        {min: 5, max: 5, pontos: 6.00},
+                        {min: 6, max: 6, pontos: 7.00},
+                        {min: 7, max: 8, pontos: 7.50},
+                        {min: 9, max: 10, pontos: 8.00},
+                        {min: 11, max: 12, pontos: 8.50},
+                        {min: 13, max: 14, pontos: 9.00},
+                        {min: 15, max: 16, pontos: 9.50},
+                        {min: 17, max: 999, pontos: 10.00}
+                    ],
+                    'abdominal': [
+                        {min: 46, max: 46, pontos: 5.00},
+                        {min: 47, max: 49, pontos: 6.00},
+                        {min: 50, max: 50, pontos: 7.00},
+                        {min: 51, max: 53, pontos: 7.50},
+                        {min: 54, max: 56, pontos: 8.00},
+                        {min: 57, max: 59, pontos: 8.50},
+                        {min: 60, max: 62, pontos: 9.00},
+                        {min: 63, max: 65, pontos: 9.50},
+                        {min: 66, max: 999, pontos: 10.00}
+                    ]
+                }
+            }
         };
 
-        // Armazenamento de dados
+        // Armazenamento
         let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
         let notas = JSON.parse(localStorage.getItem('notas')) || [];
 
         // Elementos DOM
         const formPessoa = document.getElementById('form-pessoa');
         const formNotas = document.getElementById('form-notas');
-        const corpoTabelaPessoas = document.getElementById('corpo-tabela-pessoas');
-        const corpoTabelaPessoasMobile = document.getElementById('corpo-tabela-pessoas-mobile');
-        const corpoTabelaResultados = document.getElementById('corpo-tabela-resultados');
-        const corpoTabelaResultadosMobile = document.getElementById('corpo-tabela-resultados-mobile');
         const pessoaSelect = document.getElementById('pessoa-select');
+        const corpoTabelaPessoas = document.getElementById('corpo-tabela-pessoas');
+        const corpoTabelaResultados = document.getElementById('corpo-tabela-resultados');
         const resultadoCadastro = document.getElementById('resultado-cadastro');
         const resultadoNotas = document.getElementById('resultado-notas');
         const resultadoBackup = document.getElementById('resultado-backup');
-        const modal = document.getElementById('modal-detalhes');
-        const closeModal = document.querySelector('.close');
-        const conteudoModal = document.getElementById('conteudo-modal');
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
         const btnCalcular = document.getElementById('btn-calcular');
         const notaFinalInput = document.getElementById('nota-final');
-        const btnExportar = document.getElementById('btn-exportar');
-        
-        // Novos elementos para backup
         const btnExportarBackup = document.getElementById('btn-exportar-backup');
-        const inputBackup = document.getElementById('input-backup');
         const btnImportarBackup = document.getElementById('btn-importar-backup');
-        const infoArquivo = document.getElementById('info-arquivo');
         const btnLimparDados = document.getElementById('btn-limpar-dados');
+        const btnExportarExcel = document.getElementById('btn-exportar-excel');
 
-        // [Todas as funções anteriores permanecem aqui...]
-        // Funções de utilidade
+        // Funções
         function converterTempoParaSegundos(tempoStr) {
             if (!tempoStr) return null;
-            
             const partes = tempoStr.split(':');
             if (partes.length !== 2) return null;
-            
             const minutos = parseInt(partes[0]);
             const segundos = parseInt(partes[1]);
-            
             if (isNaN(minutos) || isNaN(segundos)) return null;
-            
             return minutos * 60 + segundos;
         }
 
@@ -822,16 +714,14 @@
         }
 
         function calcularPontuacao(sexo, faixaEtaria, modalidade, valor) {
-            if (valor === null || valor === undefined || valor === '') return null;
+            if (valor === null || valor === undefined) return null;
             
             const tabela = tabelasPontuacao[sexo][faixaEtaria][modalidade];
-            
             for (const faixa of tabela) {
                 if (valor >= faixa.min && valor <= faixa.max) {
                     return faixa.pontos;
                 }
             }
-            
             return 0;
         }
 
@@ -842,7 +732,6 @@
             return `${minutos}:${segs < 10 ? '0' : ''}${segs}`;
         }
 
-        // Funções de manipulação de dados
         function salvarPessoa(nome, sexo, idade) {
             const id = Date.now().toString();
             const pessoa = {
@@ -852,7 +741,6 @@
                 idade: parseInt(idade),
                 faixaEtaria: obterFaixaEtaria(parseInt(idade))
             };
-            
             pessoas.push(pessoa);
             localStorage.setItem('pessoas', JSON.stringify(pessoas));
             return pessoa;
@@ -884,7 +772,6 @@
         }
 
         function salvarNotas(pessoaId, corrida2400, corrida50, barra, abdominal, notaFinal) {
-            // Remover notas anteriores da mesma pessoa
             notas = notas.filter(nota => nota.pessoaId !== pessoaId);
             
             const pessoa = pessoas.find(p => p.id === pessoaId);
@@ -907,17 +794,13 @@
         }
 
         function atualizarListaPessoas() {
-            // Limpar tabelas
             corpoTabelaPessoas.innerHTML = '';
-            corpoTabelaPessoasMobile.innerHTML = '';
             
             if (pessoas.length === 0) {
                 corpoTabelaPessoas.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhuma pessoa cadastrada</td></tr>';
-                corpoTabelaPessoasMobile.innerHTML = '<div class="resultado-item" style="text-align: center;">Nenhuma pessoa cadastrada</div>';
                 return;
             }
             
-            // Atualizar tabela desktop
             pessoas.forEach(pessoa => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -932,53 +815,16 @@
                 `;
                 corpoTabelaPessoas.appendChild(tr);
             });
-            
-            // Atualizar layout mobile
-            pessoas.forEach(pessoa => {
-                const div = document.createElement('div');
-                div.className = 'resultado-item';
-                div.innerHTML = `
-                    <div class="resultado-header">${pessoa.nome}</div>
-                    <div class="resultado-detalhes">
-                        <div class="label">Sexo:</div>
-                        <div>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</div>
-                        <div class="label">Idade:</div>
-                        <div>${pessoa.idade}</div>
-                        <div class="label">Faixa Etária:</div>
-                        <div>${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</div>
-                    </div>
-                    <div class="resultado-actions">
-                        <button class="btn" onclick="atribuirNotas('${pessoa.id}')">Atribuir Notas</button>
-                        <button class="btn btn-danger" onclick="removerPessoa('${pessoa.id}')">Remover</button>
-                    </div>
-                `;
-                corpoTabelaPessoasMobile.appendChild(div);
-            });
-        }
-
-        function atualizarSelectPessoas() {
-            pessoaSelect.innerHTML = '<option value="">Selecione uma pessoa</option>';
-            
-            pessoas.forEach(pessoa => {
-                const option = document.createElement('option');
-                option.value = pessoa.id;
-                option.textContent = `${pessoa.nome} (${pessoa.sexo === 'M' ? 'M' : 'F'}, ${pessoa.idade} anos)`;
-                pessoaSelect.appendChild(option);
-            });
         }
 
         function atualizarTabelaResultados() {
-            // Limpar tabelas
             corpoTabelaResultados.innerHTML = '';
-            corpoTabelaResultadosMobile.innerHTML = '';
             
             if (notas.length === 0) {
                 corpoTabelaResultados.innerHTML = '<tr><td colspan="9" style="text-align: center;">Nenhum resultado disponível</td></tr>';
-                corpoTabelaResultadosMobile.innerHTML = '<div class="resultado-item" style="text-align: center;">Nenhum resultado disponível</div>';
                 return;
             }
             
-            // Atualizar tabela desktop
             notas.forEach(nota => {
                 const pessoa = pessoas.find(p => p.id === nota.pessoaId);
                 if (!pessoa) return;
@@ -994,44 +840,20 @@
                     <td>${nota.abdominal || '-'}</td>
                     <td>${nota.notaFinal.toFixed(2)}</td>
                     <td class="actions">
-                        <button class="btn" onclick="verDetalhes('${pessoa.id}')">Detalhes</button>
                         <button class="btn btn-danger" onclick="removerNota('${pessoa.id}')">Remover</button>
                     </td>
                 `;
                 corpoTabelaResultados.appendChild(tr);
             });
-            
-            // Atualizar layout mobile
-            notas.forEach(nota => {
-                const pessoa = pessoas.find(p => p.id === nota.pessoaId);
-                if (!pessoa) return;
-                
-                const div = document.createElement('div');
-                div.className = 'resultado-item';
-                div.innerHTML = `
-                    <div class="resultado-header">${pessoa.nome}</div>
-                    <div class="resultado-detalhes">
-                        <div class="label">Sexo:</div>
-                        <div>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</div>
-                        <div class="label">Idade:</div>
-                        <div>${pessoa.idade}</div>
-                        <div class="label">Corrida 2400m:</div>
-                        <div>${nota.corrida2400 ? formatarTempo(nota.corrida2400) : '-'}</div>
-                        <div class="label">Corrida 50m:</div>
-                        <div>${nota.corrida50 ? nota.corrida50.toFixed(2) + 's' : '-'}</div>
-                        <div class="label">Barra:</div>
-                        <div>${nota.barra ? nota.barra.toFixed(2) + (pessoa.sexo === 'F' ? 's' : ' reps') : '-'}</div>
-                        <div class="label">Abdominal:</div>
-                        <div>${nota.abdominal || '-'}</div>
-                        <div class="label">Nota Final:</div>
-                        <div>${nota.notaFinal.toFixed(2)}</div>
-                    </div>
-                    <div class="resultado-actions">
-                        <button class="btn" onclick="verDetalhes('${pessoa.id}')">Detalhes</button>
-                        <button class="btn btn-danger" onclick="removerNota('${pessoa.id}')">Remover</button>
-                    </div>
-                `;
-                corpoTabelaResultadosMobile.appendChild(div);
+        }
+
+        function atualizarSelectPessoas() {
+            pessoaSelect.innerHTML = '<option value="">Selecione uma pessoa</option>';
+            pessoas.forEach(pessoa => {
+                const option = document.createElement('option');
+                option.value = pessoa.id;
+                option.textContent = `${pessoa.nome} (${pessoa.sexo === 'M' ? 'M' : 'F'}, ${pessoa.idade} anos)`;
+                pessoaSelect.appendChild(option);
             });
         }
 
@@ -1039,7 +861,6 @@
             elemento.textContent = mensagem;
             elemento.className = 'resultado ' + tipo;
             elemento.style.display = 'block';
-            
             setTimeout(() => {
                 elemento.style.display = 'none';
             }, 5000);
@@ -1051,7 +872,6 @@
                 return;
             }
 
-            // Preparar dados para exportação
             const dadosExportacao = notas.map(nota => {
                 const pessoa = pessoas.find(p => p.id === nota.pessoaId);
                 if (!pessoa) return null;
@@ -1069,19 +889,14 @@
                 };
             }).filter(item => item !== null);
 
-            // Criar planilha
             const ws = XLSX.utils.json_to_sheet(dadosExportacao);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Resultados Educação Física');
 
-            // Gerar arquivo e fazer download
             const nomeArquivo = `resultados_educacao_fisica_${new Date().toISOString().split('T')[0]}.xlsx`;
             XLSX.writeFile(wb, nomeArquivo);
         }
 
-        // NOVAS FUNÇÕES PARA BACKUP
-
-        // Função para exportar backup
         function exportarBackup() {
             const dadosBackup = {
                 pessoas: pessoas,
@@ -1105,72 +920,65 @@
             mostrarResultado(resultadoBackup, 'Backup exportado com sucesso!', 'success');
         }
 
-        // Função para importar backup
-        function importarBackup(arquivo) {
-            const reader = new FileReader();
+        function importarBackup() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
             
-            reader.onload = function(e) {
-                try {
-                    const dadosBackup = JSON.parse(e.target.result);
-                    
-                    // Validar estrutura do arquivo
-                    if (!dadosBackup.pessoas || !dadosBackup.notas) {
-                        throw new Error('Arquivo de backup inválido');
+            input.onchange = function(e) {
+                const arquivo = e.target.files[0];
+                if (!arquivo) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const dadosBackup = JSON.parse(e.target.result);
+                        
+                        if (!dadosBackup.pessoas || !dadosBackup.notas) {
+                            throw new Error('Arquivo de backup inválido');
+                        }
+                        
+                        if (confirm('Isso substituirá todos os dados atuais. Tem certeza que deseja continuar?')) {
+                            pessoas = dadosBackup.pessoas;
+                            notas = dadosBackup.notas;
+                            
+                            localStorage.setItem('pessoas', JSON.stringify(pessoas));
+                            localStorage.setItem('notas', JSON.stringify(notas));
+                            
+                            atualizarListaPessoas();
+                            atualizarSelectPessoas();
+                            atualizarTabelaResultados();
+                            mostrarResultado(resultadoBackup, 'Backup importado com sucesso!', 'success');
+                        }
+                    } catch (error) {
+                        mostrarResultado(resultadoBackup, 'Erro ao importar backup: ' + error.message, 'error');
                     }
-                    
-                    // Confirmar substituição
-                    if (confirm('Isso substituirá todos os dados atuais. Tem certeza que deseja continuar?')) {
-                        // Substituir dados
-                        pessoas = dadosBackup.pessoas;
-                        notas = dadosBackup.notas;
-                        
-                        // Salvar no localStorage
-                        localStorage.setItem('pessoas', JSON.stringify(pessoas));
-                        localStorage.setItem('notas', JSON.stringify(notas));
-                        
-                        // Atualizar interface
-                        atualizarListaPessoas();
-                        atualizarSelectPessoas();
-                        atualizarTabelaResultados();
-                        
-                        mostrarResultado(resultadoBackup, 'Backup importado com sucesso!', 'success');
-                    }
-                } catch (error) {
-                    console.error('Erro ao importar backup:', error);
-                    mostrarResultado(resultadoBackup, 'Erro ao importar backup: ' + error.message, 'error');
-                }
+                };
+                reader.readAsText(arquivo);
             };
             
-            reader.readAsText(arquivo);
+            input.click();
         }
 
-        // Função para limpar todos os dados
         function limparTodosDados() {
             if (confirm('Tem certeza que deseja limpar TODOS os dados? Esta ação não pode ser desfeita!')) {
                 pessoas = [];
                 notas = [];
-                
                 localStorage.removeItem('pessoas');
                 localStorage.removeItem('notas');
-                
                 atualizarListaPessoas();
                 atualizarSelectPessoas();
                 atualizarTabelaResultados();
-                
                 mostrarResultado(resultadoBackup, 'Todos os dados foram removidos!', 'success');
             }
         }
 
-        // Funções globais para uso nos eventos
+        // Funções globais
         window.atribuirNotas = function(pessoaId) {
-            // Mudar para a aba de notas
             tabs.forEach(tab => tab.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
-            
             document.querySelector('.tab[data-tab="notas"]').classList.add('active');
             document.getElementById('notas').classList.add('active');
-            
-            // Selecionar a pessoa
             pessoaSelect.value = pessoaId;
         };
 
@@ -1178,14 +986,11 @@
             if (confirm('Tem certeza que deseja remover esta pessoa?')) {
                 pessoas = pessoas.filter(p => p.id !== pessoaId);
                 notas = notas.filter(n => n.pessoaId !== pessoaId);
-                
                 localStorage.setItem('pessoas', JSON.stringify(pessoas));
                 localStorage.setItem('notas', JSON.stringify(notas));
-                
                 atualizarListaPessoas();
                 atualizarSelectPessoas();
                 atualizarTabelaResultados();
-                
                 mostrarResultado(resultadoCadastro, 'Pessoa removida com sucesso!', 'success');
             }
         };
@@ -1199,67 +1004,21 @@
             }
         };
 
-        window.verDetalhes = function(pessoaId) {
-            const pessoa = pessoas.find(p => p.id === pessoaId);
-            const nota = notas.find(n => n.pessoaId === pessoaId);
-            
-            if (!pessoa || !nota) return;
-            
-            const calculo = calcularNotaFinal(
-                pessoaId, 
-                nota.corrida2400 ? formatarTempo(nota.corrida2400) : '', 
-                nota.corrida50 || '', 
-                nota.barra || '', 
-                nota.abdominal || ''
-            );
-            
-            let detalhes = `<h3>Detalhes da Avaliação - ${pessoa.nome}</h3>`;
-            detalhes += `<p><strong>Sexo:</strong> ${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</p>`;
-            detalhes += `<p><strong>Idade:</strong> ${pessoa.idade} anos</p>`;
-            detalhes += `<p><strong>Faixa Etária:</strong> ${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</p>`;
-            detalhes += `<hr>`;
-            detalhes += `<h4>Desempenho e Pontuação</h4>`;
-            detalhes += `<ul>`;
-            
-            if (nota.corrida2400) {
-                detalhes += `<li><strong>Corrida 2400m:</strong> ${formatarTempo(nota.corrida2400)} - ${calculo.pontuacao2400 ? calculo.pontuacao2400.toFixed(2) + ' pontos' : 'N/A'}</li>`;
-            }
-            if (nota.corrida50) {
-                detalhes += `<li><strong>Corrida 50m:</strong> ${nota.corrida50.toFixed(2)}s - ${calculo.pontuacao50 ? calculo.pontuacao50.toFixed(2) + ' pontos' : 'N/A'}</li>`;
-            }
-            if (nota.barra) {
-                detalhes += `<li><strong>Barra Fixa:</strong> ${nota.barra.toFixed(2)}${pessoa.sexo === 'F' ? ' segundos' : ' repetições'} - ${calculo.pontuacaoBarra ? calculo.pontuacaoBarra.toFixed(2) + ' pontos' : 'N/A'}</li>`;
-            }
-            if (nota.abdominal) {
-                detalhes += `<li><strong>Abdominal:</strong> ${nota.abdominal} repetições - ${calculo.pontuacaoAbdominal ? calculo.pontuacaoAbdominal.toFixed(2) + ' pontos' : 'N/A'}</li>`;
-            }
-            
-            detalhes += `</ul>`;
-            detalhes += `<hr>`;
-            detalhes += `<p><strong>Média Calculada:</strong> ${calculo.media.toFixed(2)}</p>`;
-            detalhes += `<p><strong>Nota Final Registrada:</strong> ${nota.notaFinal.toFixed(2)}</p>`;
-            
-            conteudoModal.innerHTML = detalhes;
-            modal.style.display = 'flex';
-        };
-
         // Event Listeners
         formPessoa.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const nome = document.getElementById('nome').value;
             const sexo = document.getElementById('sexo').value;
             const idade = document.getElementById('idade').value;
             
             if (!nome || !sexo || !idade) {
-                mostrarResultado(resultadoCadastro, 'Por favor, preencha todos os campos!', 'error');
+                mostrarResultado(resultadoCadastro, 'Preencha todos os campos!', 'error');
                 return;
             }
             
             salvarPessoa(nome, sexo, idade);
             atualizarListaPessoas();
             atualizarSelectPessoas();
-            
             formPessoa.reset();
             mostrarResultado(resultadoCadastro, 'Pessoa cadastrada com sucesso!', 'success');
         });
@@ -1272,7 +1031,7 @@
             const abdominal = document.getElementById('abdominal').value;
             
             if (!pessoaId) {
-                mostrarResultado(resultadoNotas, 'Por favor, selecione uma pessoa!', 'error');
+                mostrarResultado(resultadoNotas, 'Selecione uma pessoa!', 'error');
                 return;
             }
             
@@ -1286,7 +1045,6 @@
 
         formNotas.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const pessoaId = pessoaSelect.value;
             const corrida2400 = document.getElementById('corrida-2400').value;
             const corrida50 = document.getElementById('corrida-50').value;
@@ -1295,17 +1053,12 @@
             const notaFinal = document.getElementById('nota-final').value;
             
             if (!pessoaId) {
-                mostrarResultado(resultadoNotas, 'Por favor, selecione uma pessoa!', 'error');
-                return;
-            }
-            
-            if (!corrida2400 && !corrida50 && !barra && !abdominal) {
-                mostrarResultado(resultadoNotas, 'Por favor, preencha pelo menos um campo de desempenho!', 'error');
+                mostrarResultado(resultadoNotas, 'Selecione uma pessoa!', 'error');
                 return;
             }
             
             if (!notaFinal || parseFloat(notaFinal) === 0) {
-                mostrarResultado(resultadoNotas, 'Por favor, calcule a pontuação primeiro!', 'error');
+                mostrarResultado(resultadoNotas, 'Calcule a pontuação primeiro!', 'error');
                 return;
             }
             
@@ -1315,60 +1068,24 @@
                 atualizarTabelaResultados();
                 formNotas.reset();
                 notaFinalInput.value = '';
-                
                 mostrarResultado(resultadoNotas, 'Avaliação salva com sucesso!', 'success');
-            } else {
-                mostrarResultado(resultadoNotas, 'Erro ao salvar a avaliação!', 'error');
             }
         });
 
-        btnExportar.addEventListener('click', exportarParaExcel);
-
-        // NOVOS EVENT LISTENERS PARA BACKUP
+        btnExportarExcel.addEventListener('click', exportarParaExcel);
         btnExportarBackup.addEventListener('click', exportarBackup);
-        
-        inputBackup.addEventListener('change', function(e) {
-            const arquivo = e.target.files[0];
-            if (arquivo) {
-                btnImportarBackup.disabled = false;
-                infoArquivo.textContent = `Arquivo selecionado: ${arquivo.name} (${(arquivo.size / 1024).toFixed(2)} KB)`;
-            } else {
-                btnImportarBackup.disabled = true;
-                infoArquivo.textContent = '';
-            }
-        });
-        
-        btnImportarBackup.addEventListener('click', function() {
-            const arquivo = inputBackup.files[0];
-            if (arquivo) {
-                importarBackup(arquivo);
-            }
-        });
-        
+        btnImportarBackup.addEventListener('click', importarBackup);
         btnLimparDados.addEventListener('click', limparTodosDados);
 
-        // Eventos das abas
+        // Sistema de abas
         tabs.forEach(tab => {
             tab.addEventListener('click', function() {
                 const tabId = this.getAttribute('data-tab');
-                
                 tabs.forEach(t => t.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
-                
                 this.classList.add('active');
                 document.getElementById(tabId).classList.add('active');
             });
-        });
-
-        // Evento do modal
-        closeModal.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
         });
 
         // Inicialização
