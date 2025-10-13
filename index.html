@@ -334,6 +334,24 @@
                             <label for="idade">Idade</label>
                             <input type="number" id="idade" min="1" max="100" required>
                         </div>
+                        <div class="form-group">
+                            <label for="curso">Curso</label>
+                            <select id="curso" required>
+                                <option value="">Selecione</option>
+                                <option value="CFSD">CFSD</option>
+                                <option value="CFO 1º ano">CFO 1º ano</option>
+                                <option value="CFO 2º ano">CFO 2º ano</option>
+                                <option value="CFO 3º ano">CFO 3º ano</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tfc">TFC</label>
+                            <select id="tfc" required>
+                                <option value="">Selecione</option>
+                                <option value="1º TCF">1º TCF</option>
+                                <option value="2º TCF">2º TCF</option>
+                            </select>
+                        </div>
                     </div>
                     <button type="submit" class="btn">Cadastrar Pessoa</button>
                 </form>
@@ -349,6 +367,8 @@
                                 <th>Nome</th>
                                 <th>Sexo</th>
                                 <th>Idade</th>
+                                <th>Curso</th>
+                                <th>TFC</th>
                                 <th>Faixa Etária</th>
                                 <th>Ações</th>
                             </tr>
@@ -423,6 +443,8 @@
                                 <th>Nome</th>
                                 <th>Sexo</th>
                                 <th>Idade</th>
+                                <th>Curso</th>
+                                <th>TFC</th>
                                 <th>Corrida 2400m</th>
                                 <th>Corrida 50m</th>
                                 <th>Barra</th>
@@ -732,13 +754,15 @@
             return `${minutos}:${segs < 10 ? '0' : ''}${segs}`;
         }
 
-        function salvarPessoa(nome, sexo, idade) {
+        function salvarPessoa(nome, sexo, idade, curso, tfc) {
             const id = Date.now().toString();
             const pessoa = {
                 id,
                 nome,
                 sexo,
                 idade: parseInt(idade),
+                curso,
+                tfc,
                 faixaEtaria: obterFaixaEtaria(parseInt(idade))
             };
             pessoas.push(pessoa);
@@ -797,7 +821,7 @@
             corpoTabelaPessoas.innerHTML = '';
             
             if (pessoas.length === 0) {
-                corpoTabelaPessoas.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhuma pessoa cadastrada</td></tr>';
+                corpoTabelaPessoas.innerHTML = '<tr><td colspan="7" style="text-align: center;">Nenhuma pessoa cadastrada</td></tr>';
                 return;
             }
             
@@ -807,6 +831,8 @@
                     <td>${pessoa.nome}</td>
                     <td>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</td>
                     <td>${pessoa.idade}</td>
+                    <td>${pessoa.curso}</td>
+                    <td>${pessoa.tfc}</td>
                     <td>${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</td>
                     <td class="actions">
                         <button class="btn" onclick="atribuirNotas('${pessoa.id}')">Atribuir Notas</button>
@@ -821,7 +847,7 @@
             corpoTabelaResultados.innerHTML = '';
             
             if (notas.length === 0) {
-                corpoTabelaResultados.innerHTML = '<tr><td colspan="9" style="text-align: center;">Nenhum resultado disponível</td></tr>';
+                corpoTabelaResultados.innerHTML = '<tr><td colspan="11" style="text-align: center;">Nenhum resultado disponível</td></tr>';
                 return;
             }
             
@@ -834,6 +860,8 @@
                     <td>${pessoa.nome}</td>
                     <td>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</td>
                     <td>${pessoa.idade}</td>
+                    <td>${pessoa.curso}</td>
+                    <td>${pessoa.tfc}</td>
                     <td>${nota.corrida2400 ? formatarTempo(nota.corrida2400) : '-'}</td>
                     <td>${nota.corrida50 ? nota.corrida50.toFixed(2) + 's' : '-'}</td>
                     <td>${nota.barra ? nota.barra.toFixed(2) + (pessoa.sexo === 'F' ? 's' : ' reps') : '-'}</td>
@@ -852,7 +880,7 @@
             pessoas.forEach(pessoa => {
                 const option = document.createElement('option');
                 option.value = pessoa.id;
-                option.textContent = `${pessoa.nome} (${pessoa.sexo === 'M' ? 'M' : 'F'}, ${pessoa.idade} anos)`;
+                option.textContent = `${pessoa.nome} (${pessoa.sexo === 'M' ? 'M' : 'F'}, ${pessoa.idade} anos, ${pessoa.curso})`;
                 pessoaSelect.appendChild(option);
             });
         }
@@ -880,6 +908,8 @@
                     'Nome': pessoa.nome,
                     'Sexo': pessoa.sexo === 'M' ? 'Masculino' : 'Feminino',
                     'Idade': pessoa.idade,
+                    'Curso': pessoa.curso,
+                    'TFC': pessoa.tfc,
                     'Faixa Etária': pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos',
                     'Corrida 2400m': nota.corrida2400 ? formatarTempo(nota.corrida2400) : '-',
                     'Corrida 50m': nota.corrida50 ? `${nota.corrida50.toFixed(2)}s` : '-',
@@ -1010,13 +1040,15 @@
             const nome = document.getElementById('nome').value;
             const sexo = document.getElementById('sexo').value;
             const idade = document.getElementById('idade').value;
+            const curso = document.getElementById('curso').value;
+            const tfc = document.getElementById('tfc').value;
             
-            if (!nome || !sexo || !idade) {
+            if (!nome || !sexo || !idade || !curso || !tfc) {
                 mostrarResultado(resultadoCadastro, 'Preencha todos os campos!', 'error');
                 return;
             }
             
-            salvarPessoa(nome, sexo, idade);
+            salvarPessoa(nome, sexo, idade, curso, tfc);
             atualizarListaPessoas();
             atualizarSelectPessoas();
             formPessoa.reset();
