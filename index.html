@@ -27,6 +27,7 @@
             color: var(--dark);
             line-height: 1.6;
             font-size: 14px;
+            padding-bottom: 60px; /* Espaço para o footer */
         }
         
         .container {
@@ -43,6 +44,7 @@
             margin-bottom: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
         }
         
         h1 {
@@ -109,7 +111,8 @@
             transition: background-color 0.3s;
             margin-right: 8px;
             margin-bottom: 8px;
-            width: 100%;
+            text-align: center;
+            text-decoration: none;
         }
         
         .btn:hover {
@@ -172,9 +175,10 @@
         .actions .btn {
             width: auto;
             flex: 1;
-            min-width: 0;
-            font-size: 0.8rem;
-            padding: 6px 10px;
+            min-width: 60px;
+            font-size: 0.75rem;
+            padding: 6px 8px;
+            margin: 2px;
         }
         
         .modal {
@@ -295,6 +299,11 @@
             -webkit-overflow-scrolling: touch;
         }
         
+        /* Layout responsivo para tabela de resultados */
+        .table-resultados-mobile {
+            display: none;
+        }
+        
         /* Estilos para telas maiores */
         @media (min-width: 768px) {
             body {
@@ -390,17 +399,106 @@
             -webkit-appearance: none;
             margin: 0;
         }
+        
+        /* Footer com créditos */
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+        
+        /* Layout alternativo para tabela em mobile */
+        @media (max-width: 767px) {
+            .table-desktop {
+                display: none;
+            }
+            
+            .table-mobile {
+                display: block;
+            }
+            
+            .resultado-item {
+                background: white;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 10px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+            
+            .resultado-header {
+                font-weight: bold;
+                margin-bottom: 8px;
+                font-size: 1.1rem;
+                color: var(--primary);
+            }
+            
+            .resultado-detalhes {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .resultado-detalhes div {
+                font-size: 0.85rem;
+            }
+            
+            .resultado-detalhes .label {
+                font-weight: bold;
+                color: var(--dark);
+            }
+            
+            .resultado-actions {
+                display: flex;
+                gap: 8px;
+                margin-top: 10px;
+            }
+            
+            .resultado-actions .btn {
+                flex: 1;
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .table-mobile {
+                display: none;
+            }
+            
+            .table-desktop {
+                display: table;
+            }
+        }
+        
+        /* Melhorias específicas para botões em mobile */
+        @media (max-width: 480px) {
+            .actions {
+                flex-direction: column;
+            }
+            
+            .actions .btn {
+                width: 100%;
+                margin: 2px 0;
+            }
+            
+            .resultado-actions {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Sistema de Notas de Educação Física</h1>
-
             <p class="subtitle">Gerenciamento de pontuações por modalidade, idade e sexo</p>
-            <p></p>
-            <p class="subtitle"><i>Criado por Lewy Oliveira</i></p>
-
         </header>
         
         <div class="tabs">
@@ -439,7 +537,7 @@
             <div class="card">
                 <h2 class="card-title">Pessoas Cadastradas</h2>
                 <div class="table-container">
-                    <table id="tabela-pessoas">
+                    <table id="tabela-pessoas" class="table-desktop">
                         <thead>
                             <tr>
                                 <th>Nome</th>
@@ -453,6 +551,11 @@
                             <!-- Dados serão inseridos dinamicamente -->
                         </tbody>
                     </table>
+                    
+                    <!-- Layout mobile para pessoas cadastradas -->
+                    <div id="corpo-tabela-pessoas-mobile" class="table-mobile">
+                        <!-- Dados serão inseridos dinamicamente -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -513,7 +616,8 @@
                 </div>
                 
                 <div class="table-container">
-                    <table id="tabela-resultados">
+                    <!-- Tabela para desktop -->
+                    <table id="tabela-resultados" class="table-desktop">
                         <thead>
                             <tr>
                                 <th>Nome</th>
@@ -531,6 +635,11 @@
                             <!-- Dados serão inseridos dinamicamente -->
                         </tbody>
                     </table>
+                    
+                    <!-- Layout mobile para resultados -->
+                    <div id="corpo-tabela-resultados-mobile" class="table-mobile">
+                        <!-- Dados serão inseridos dinamicamente -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -549,11 +658,15 @@
         </div>
     </div>
 
+    <!-- Footer com créditos -->
+    <div class="footer">
+        Criado por Lewy Oliveira
+    </div>
+
     <!-- Biblioteca para exportação Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
-        // [O código JavaScript permanece exatamente o mesmo da versão anterior]
         // Dados das tabelas de pontuação
         const tabelasPontuacao = {
             'F': { // Feminino
@@ -754,7 +867,9 @@
         const formPessoa = document.getElementById('form-pessoa');
         const formNotas = document.getElementById('form-notas');
         const corpoTabelaPessoas = document.getElementById('corpo-tabela-pessoas');
+        const corpoTabelaPessoasMobile = document.getElementById('corpo-tabela-pessoas-mobile');
         const corpoTabelaResultados = document.getElementById('corpo-tabela-resultados');
+        const corpoTabelaResultadosMobile = document.getElementById('corpo-tabela-resultados-mobile');
         const pessoaSelect = document.getElementById('pessoa-select');
         const resultadoCadastro = document.getElementById('resultado-cadastro');
         const resultadoNotas = document.getElementById('resultado-notas');
@@ -872,13 +987,17 @@
         }
 
         function atualizarListaPessoas() {
+            // Limpar tabelas
             corpoTabelaPessoas.innerHTML = '';
+            corpoTabelaPessoasMobile.innerHTML = '';
             
             if (pessoas.length === 0) {
                 corpoTabelaPessoas.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhuma pessoa cadastrada</td></tr>';
+                corpoTabelaPessoasMobile.innerHTML = '<div class="resultado-item" style="text-align: center;">Nenhuma pessoa cadastrada</div>';
                 return;
             }
             
+            // Atualizar tabela desktop
             pessoas.forEach(pessoa => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -892,6 +1011,28 @@
                     </td>
                 `;
                 corpoTabelaPessoas.appendChild(tr);
+            });
+            
+            // Atualizar layout mobile
+            pessoas.forEach(pessoa => {
+                const div = document.createElement('div');
+                div.className = 'resultado-item';
+                div.innerHTML = `
+                    <div class="resultado-header">${pessoa.nome}</div>
+                    <div class="resultado-detalhes">
+                        <div class="label">Sexo:</div>
+                        <div>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</div>
+                        <div class="label">Idade:</div>
+                        <div>${pessoa.idade}</div>
+                        <div class="label">Faixa Etária:</div>
+                        <div>${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</div>
+                    </div>
+                    <div class="resultado-actions">
+                        <button class="btn" onclick="atribuirNotas('${pessoa.id}')">Atribuir Notas</button>
+                        <button class="btn btn-danger" onclick="removerPessoa('${pessoa.id}')">Remover</button>
+                    </div>
+                `;
+                corpoTabelaPessoasMobile.appendChild(div);
             });
         }
 
@@ -907,13 +1048,17 @@
         }
 
         function atualizarTabelaResultados() {
+            // Limpar tabelas
             corpoTabelaResultados.innerHTML = '';
+            corpoTabelaResultadosMobile.innerHTML = '';
             
             if (notas.length === 0) {
                 corpoTabelaResultados.innerHTML = '<tr><td colspan="9" style="text-align: center;">Nenhum resultado disponível</td></tr>';
+                corpoTabelaResultadosMobile.innerHTML = '<div class="resultado-item" style="text-align: center;">Nenhum resultado disponível</div>';
                 return;
             }
             
+            // Atualizar tabela desktop
             notas.forEach(nota => {
                 const pessoa = pessoas.find(p => p.id === nota.pessoaId);
                 if (!pessoa) return;
@@ -934,6 +1079,39 @@
                     </td>
                 `;
                 corpoTabelaResultados.appendChild(tr);
+            });
+            
+            // Atualizar layout mobile
+            notas.forEach(nota => {
+                const pessoa = pessoas.find(p => p.id === nota.pessoaId);
+                if (!pessoa) return;
+                
+                const div = document.createElement('div');
+                div.className = 'resultado-item';
+                div.innerHTML = `
+                    <div class="resultado-header">${pessoa.nome}</div>
+                    <div class="resultado-detalhes">
+                        <div class="label">Sexo:</div>
+                        <div>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</div>
+                        <div class="label">Idade:</div>
+                        <div>${pessoa.idade}</div>
+                        <div class="label">Corrida 2400m:</div>
+                        <div>${nota.corrida2400 ? formatarTempo(nota.corrida2400) : '-'}</div>
+                        <div class="label">Corrida 50m:</div>
+                        <div>${nota.corrida50 ? nota.corrida50.toFixed(2) + 's' : '-'}</div>
+                        <div class="label">Barra:</div>
+                        <div>${nota.barra ? nota.barra.toFixed(2) + (pessoa.sexo === 'F' ? 's' : ' reps') : '-'}</div>
+                        <div class="label">Abdominal:</div>
+                        <div>${nota.abdominal || '-'}</div>
+                        <div class="label">Nota Final:</div>
+                        <div>${nota.notaFinal.toFixed(2)}</div>
+                    </div>
+                    <div class="resultado-actions">
+                        <button class="btn" onclick="verDetalhes('${pessoa.id}')">Detalhes</button>
+                        <button class="btn btn-danger" onclick="removerNota('${pessoa.id}')">Remover</button>
+                    </div>
+                `;
+                corpoTabelaResultadosMobile.appendChild(div);
             });
         }
 
