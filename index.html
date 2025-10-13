@@ -26,31 +26,32 @@
             background-color: #f5f7fa;
             color: var(--dark);
             line-height: 1.6;
+            font-size: 14px;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
         
         header {
             background-color: var(--primary);
             color: white;
-            padding: 20px 0;
+            padding: 15px 0;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
         }
         
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1rem;
             opacity: 0.9;
         }
         
@@ -58,34 +59,35 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 25px;
-            margin-bottom: 25px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
         
         .card-title {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
             color: var(--primary);
             border-bottom: 2px solid var(--light);
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
+            font-size: 0.9rem;
         }
         
         input, select {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 16px;
+            font-size: 16px; /* Mantido 16px para evitar zoom em iOS */
             transition: border 0.3s;
         }
         
@@ -98,15 +100,16 @@
             display: inline-block;
             background-color: var(--secondary);
             color: white;
-            padding: 12px 24px;
+            padding: 10px 18px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             transition: background-color 0.3s;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            width: 100%;
         }
         
         .btn:hover {
@@ -140,11 +143,12 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 15px;
+            font-size: 0.85rem;
         }
         
         th, td {
-            padding: 12px 15px;
+            padding: 8px 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
@@ -152,6 +156,7 @@
         th {
             background-color: var(--light);
             font-weight: 600;
+            font-size: 0.9rem;
         }
         
         tr:hover {
@@ -160,7 +165,16 @@
         
         .actions {
             display: flex;
-            gap: 10px;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .actions .btn {
+            width: auto;
+            flex: 1;
+            min-width: 0;
+            font-size: 0.8rem;
+            padding: 6px 10px;
         }
         
         .modal {
@@ -174,14 +188,15 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 10px;
         }
         
         .modal-content {
             background-color: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
+            width: 100%;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -190,27 +205,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .close {
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
             color: var(--dark);
         }
         
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: 1fr;
+            gap: 12px;
         }
         
         .resultado {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 12px;
             background-color: var(--light);
             border-radius: 4px;
             display: none;
+            font-size: 0.9rem;
         }
         
         .resultado.success {
@@ -227,14 +243,18 @@
         
         .tabs {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
         }
         
         .tab {
-            padding: 12px 20px;
+            padding: 10px 15px;
             cursor: pointer;
             border-bottom: 3px solid transparent;
+            flex-shrink: 0;
         }
         
         .tab.active {
@@ -258,20 +278,117 @@
         }
         
         .export-section {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 12px;
             background-color: var(--light);
             border-radius: 4px;
         }
         
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
+        .export-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        /* Melhorias para tabelas em mobile */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Estilos para telas maiores */
+        @media (min-width: 768px) {
+            body {
+                font-size: 16px;
             }
             
-            .actions {
-                flex-direction: column;
+            .container {
+                padding: 20px;
             }
+            
+            header {
+                padding: 20px 0;
+                margin-bottom: 30px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                padding: 25px;
+                margin-bottom: 25px;
+            }
+            
+            .card-title {
+                font-size: 1.4rem;
+                margin-bottom: 20px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .btn {
+                padding: 12px 24px;
+                font-size: 16px;
+                width: auto;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            table {
+                font-size: 1rem;
+            }
+            
+            th, td {
+                padding: 12px 15px;
+            }
+            
+            .actions .btn {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Ajustes específicos para formulário de notas em mobile */
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .form-actions .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        /* Melhorar legibilidade em mobile */
+        small {
+            font-size: 0.8rem;
+            color: #666;
+            display: block;
+            margin-top: 4px;
+        }
+        
+        /* Ajustes para inputs em iOS */
+        input[type="number"] {
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+        
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
     </style>
 </head>
@@ -279,15 +396,17 @@
     <div class="container">
         <header>
             <h1>Sistema de Notas de Educação Física</h1>
+
             <p class="subtitle">Gerenciamento de pontuações por modalidade, idade e sexo</p>
             <p></p>
             <p class="subtitle"><i>Criado por Lewy Oliveira</i></p>
+
         </header>
         
         <div class="tabs">
-            <div class="tab active" data-tab="cadastro">Cadastro de Pessoas</div>
+            <div class="tab active" data-tab="cadastro">Cadastro</div>
             <div class="tab" data-tab="notas">Atribuir Notas</div>
-            <div class="tab" data-tab="consulta">Consultar Resultados</div>
+            <div class="tab" data-tab="consulta">Resultados</div>
         </div>
         
         <div class="tab-content active" id="cadastro">
@@ -319,20 +438,22 @@
             
             <div class="card">
                 <h2 class="card-title">Pessoas Cadastradas</h2>
-                <table id="tabela-pessoas">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Sexo</th>
-                            <th>Idade</th>
-                            <th>Faixa Etária</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="corpo-tabela-pessoas">
-                        <!-- Dados serão inseridos dinamicamente -->
-                    </tbody>
-                </table>
+                <div class="table-container">
+                    <table id="tabela-pessoas">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Sexo</th>
+                                <th>Idade</th>
+                                <th>Faixa Etária</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-tabela-pessoas">
+                            <!-- Dados serão inseridos dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         
@@ -372,8 +493,10 @@
                         <input type="number" id="nota-final" step="0.01" min="0" max="10" class="nota-final-input" readonly>
                     </div>
                     
-                    <button type="submit" class="btn btn-success">Salvar Avaliação</button>
-                    <button type="button" class="btn" id="btn-calcular">Calcular Pontuação</button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success">Salvar Avaliação</button>
+                        <button type="button" class="btn" id="btn-calcular">Calcular Pontuação</button>
+                    </div>
                 </form>
                 <div id="resultado-notas" class="resultado"></div>
             </div>
@@ -389,24 +512,26 @@
                     <button class="btn btn-warning" id="btn-exportar">Exportar para Excel</button>
                 </div>
                 
-                <table id="tabela-resultados">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Sexo</th>
-                            <th>Idade</th>
-                            <th>Corrida 2400m</th>
-                            <th>Corrida 50m</th>
-                            <th>Barra</th>
-                            <th>Abdominal</th>
-                            <th>Nota Final</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="corpo-tabela-resultados">
-                        <!-- Dados serão inseridos dinamicamente -->
-                    </tbody>
-                </table>
+                <div class="table-container">
+                    <table id="tabela-resultados">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Sexo</th>
+                                <th>Idade</th>
+                                <th>Corrida 2400m</th>
+                                <th>Corrida 50m</th>
+                                <th>Barra</th>
+                                <th>Abdominal</th>
+                                <th>Nota Final</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-tabela-resultados">
+                            <!-- Dados serão inseridos dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -428,6 +553,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
+        // [O código JavaScript permanece exatamente o mesmo da versão anterior]
         // Dados das tabelas de pontuação
         const tabelasPontuacao = {
             'F': { // Feminino
