@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Notas de Educação Física</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-success:hover {
+            background-color: #219653;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--light);
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .resultado.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .resultado.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--secondary);
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema de Notas de Educação Física</h1>
+            <p class="subtitle">Gerenciamento de pontuações por modalidade, idade e sexo</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="cadastro">Cadastro de Pessoas</div>
+            <div class="tab" data-tab="notas">Atribuir Notas</div>
+            <div class="tab" data-tab="consulta">Consultar Resultados</div>
+        </div>
+        
+        <div class="tab-content active" id="cadastro">
+            <div class="card">
+                <h2 class="card-title">Cadastrar Nova Pessoa</h2>
+                <form id="form-pessoa">
+                    <div class="grid">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo</label>
+                            <input type="text" id="nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sexo">Sexo</label>
+                            <select id="sexo" required>
+                                <option value="">Selecione</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Feminino</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="idade">Idade</label>
+                            <input type="number" id="idade" min="1" max="100" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Cadastrar Pessoa</button>
+                </form>
+                <div id="resultado-cadastro" class="resultado"></div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Pessoas Cadastradas</h2>
+                <table id="tabela-pessoas">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Sexo</th>
+                            <th>Idade</th>
+                            <th>Faixa Etária</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo-tabela-pessoas">
+                        <!-- Dados serão inseridos dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="notas">
+            <div class="card">
+                <h2 class="card-title">Atribuir Notas</h2>
+                <form id="form-notas">
+                    <div class="form-group">
+                        <label for="pessoa-select">Selecionar Pessoa</label>
+                        <select id="pessoa-select" required>
+                            <option value="">Selecione uma pessoa</option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <label for="corrida-2400">Corrida 2400m (min:seg)</label>
+                            <input type="text" id="corrida-2400" placeholder="Ex: 12:30">
+                        </div>
+                        <div class="form-group">
+                            <label for="corrida-50">Corrida 50m (segundos)</label>
+                            <input type="number" id="corrida-50" step="0.01" placeholder="Ex: 7.50">
+                        </div>
+                        <div class="form-group">
+                            <label for="barra">Barra Fixa (repetições)</label>
+                            <input type="number" id="barra" min="0" step="1" placeholder="Ex: 10">
+                        </div>
+                        <div class="form-group">
+                            <label for="abdominal">Abdominal (repetições)</label>
+                            <input type="number" id="abdominal" min="0" step="1" placeholder="Ex: 45">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Calcular Pontuação</button>
+                </form>
+                <div id="resultado-notas" class="resultado"></div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="consulta">
+            <div class="card">
+                <h2 class="card-title">Resultados das Avaliações</h2>
+                <table id="tabela-resultados">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Sexo</th>
+                            <th>Faixa Etária</th>
+                            <th>Corrida 2400m</th>
+                            <th>Corrida 50m</th>
+                            <th>Barra</th>
+                            <th>Abdominal</th>
+                            <th>Média</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo-tabela-resultados">
+                        <!-- Dados serão inseridos dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para visualizar detalhes -->
+    <div id="modal-detalhes" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalhes da Pontuação</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div id="conteudo-modal">
+                <!-- Conteúdo será inserido dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados das tabelas de pontuação
+        const tabelasPontuacao = {
+            'F': { // Feminino
+                'mais30': {
+                    '2400m': [
+                        {min: 14*60+48, max: 15*60+34, pontos: 5.00},
+                        {min: 14*60+1, max: 14*60+47, pontos: 6.00},
+                        {min: 14*60, max: 14*60, pontos: 7.00},
+                        {min: 13*60+37, max: 13*60+59, pontos: 7.50},
+                        {min: 13*60+14, max: 13*60+36, pontos: 8.00},
+                        {min: 12*60+51, max: 13*60+13, pontos: 8.50},
+                        {min: 12*60+28, max: 12*60+50, pontos: 9.00},
+                        {min: 12*60+2, max: 12*60+27, pontos: 9.50},
+                        {min: 0, max: 12*60+1, pontos: 10.00}
+                    ],
+                    '50m': [
+                        {min: 8.71, max: 8.90, pontos: 5.00},
+                        {min: 8.51, max: 8.70, pontos: 6.00},
+                        {min: 8.50, max: 8.50, pontos: 7.00},
+                        {min: 8.40, max: 8.49, pontos: 7.50},
+                        {min: 8.30, max: 8.39, pontos: 8.00},
+                        {min: 8.20, max: 8.29, pontos: 8.50},
+                        {min: 8.10, max: 8.19, pontos: 9.00},
+                        {min: 8.00, max: 8.09, pontos: 9.50},
+                        {min: 0, max: 7.99, pontos: 10.00}
+                    ],
+                    'barra': [
+                        {min: 8.00, max: 8.99, pontos: 5.00},
+                        {min: 9.00, max: 9.99, pontos: 6.00},
+                        {min: 10.00, max: 10.99, pontos: 7.00},
+                        {min: 11.00, max: 14.99, pontos: 7.50},
+                        {min: 15.00, max: 18.99, pontos: 8.00},
+                        {min: 19.00, max: 22.99, pontos: 8.50},
+                        {min: 23.00, max: 26.99, pontos: 9.00},
+                        {min: 27.00, max: 30.99, pontos: 9.50},
+                        {min: 31.00, max: 999, pontos: 10.00}
+                    ],
+                    'abdominal': [
+                        {min: 36, max: 36, pontos: 5.00},
+                        {min: 37, max: 39, pontos: 6.00},
+                        {min: 40, max: 40, pontos: 7.00},
+                        {min: 41, max: 43, pontos: 7.50},
+                        {min: 44, max: 46, pontos: 8.00},
+                        {min: 47, max: 49, pontos: 8.50},
+                        {min: 50, max: 52, pontos: 9.00},
+                        {min: 53, max: 55, pontos: 9.50},
+                        {min: 56, max: 999, pontos: 10.00}
+                    ]
+                },
+                'ate30': {
+                    '2400m': [
+                        {min: 13*60+48, max: 14*60+34, pontos: 5.00},
+                        {min: 13*60+1, max: 13*60+47, pontos: 6.00},
+                        {min: 13*60, max: 13*60, pontos: 7.00},
+                        {min: 12*60+37, max: 12*60+59, pontos: 7.50},
+                        {min: 12*60+14, max: 12*60+36, pontos: 8.00},
+                        {min: 11*60+51, max: 12*60+13, pontos: 8.50},
+                        {min: 11*60+28, max: 11*60+50, pontos: 9.00},
+                        {min: 11*60+2, max: 11*60+27, pontos: 9.50},
+                        {min: 0, max: 11*60+1, pontos: 10.00}
+                    ],
+                    '50m': [
+                        {min: 8.31, max: 8.40, pontos: 5.00},
+                        {min: 8.21, max: 8.30, pontos: 6.00},
+                        {min: 8.20, max: 8.20, pontos: 7.00},
+                        {min: 8.10, max: 8.19, pontos: 7.50},
+                        {min: 8.00, max: 8.09, pontos: 8.00},
+                        {min: 7.90, max: 7.99, pontos: 8.50},
+                        {min: 7.80, max: 7.89, pontos: 9.00},
+                        {min: 7.70, max: 7.79, pontos: 9.50},
+                        {min: 0, max: 7.69, pontos: 10.00}
+                    ],
+                    'barra': [
+                        {min: 9.00, max: 9.99, pontos: 5.00},
+                        {min: 10.00, max: 10.99, pontos: 6.00},
+                        {min: 11.00, max: 11.99, pontos: 7.00},
+                        {min: 12.00, max: 15.99, pontos: 7.50},
+                        {min: 16.00, max: 19.99, pontos: 8.00},
+                        {min: 20.00, max: 23.99, pontos: 8.50},
+                        {min: 24.00, max: 27.99, pontos: 9.00},
+                        {min: 28.00, max: 31.99, pontos: 9.50},
+                        {min: 32.00, max: 999, pontos: 10.00}
+                    ],
+                    'abdominal': [
+                        {min: 40, max: 40, pontos: 5.00},
+                        {min: 41, max: 43, pontos: 6.00},
+                        {min: 44, max: 44, pontos: 7.00},
+                        {min: 45, max: 47, pontos: 7.50},
+                        {min: 48, max: 50, pontos: 8.00},
+                        {min: 51, max: 53, pontos: 8.50},
+                        {min: 54, max: 56, pontos: 9.00},
+                        {min: 57, max: 59, pontos: 9.50},
+                        {min: 60, max: 999, pontos: 10.00}
+                    ]
+                }
+            },
+            'M': { // Masculino
+                'mais30': {
+                    '2400m': [
+                        {min: 12*60+48, max: 13*60+34, pontos: 5.00},
+                        {min: 12*60+1, max: 12*60+47, pontos: 6.00},
+                        {min: 12*60, max: 12*60, pontos: 7.00},
+                        {min: 11*60+36, max: 11*60+59, pontos: 7.50},
+                        {min: 11*60+12, max: 11*60+35, pontos: 8.00},
+                        {min: 10*60+48, max: 11*60+11, pontos: 8.50},
+                        {min: 10*60+24, max: 10*60+47, pontos: 9.00},
+                        {min: 10*60+1, max: 10*60+23, pontos: 9.50},
+                        {min: 0, max: 10*60, pontos: 10.00}
+                    ],
+                    '50m': [
+                        {min: 7.71, max: 7.90, pontos: 5.00},
+                        {min: 7.51, max: 7.70, pontos: 6.00},
+                        {min: 7.50, max: 7.50, pontos: 7.00},
+                        {min: 7.40, max: 7.49, pontos: 7.50},
+                        {min: 7.30, max: 7.39, pontos: 8.00},
+                        {min: 7.20, max: 7.29, pontos: 8.50},
+                        {min: 7.10, max: 7.19, pontos: 9.00},
+                        {min: 7.00, max: 7.09, pontos: 9.50},
+                        {min: 0, max: 6.99, pontos: 10.00}
+                    ],
+                    'barra': [
+                        {min: 3, max: 3, pontos: 5.00},
+                        {min: 4, max: 4, pontos: 6.00},
+                        {min: 5, max: 5, pontos: 7.00},
+                        {min: 6, max: 7, pontos: 7.50},
+                        {min: 8, max: 9, pontos: 8.00},
+                        {min: 10, max: 11, pontos: 8.50},
+                        {min: 12, max: 13, pontos: 9.00},
+                        {min: 14, max: 15, pontos: 9.50},
+                        {min: 16, max: 999, pontos: 10.00}
+                    ],
+                    'abdominal': [
+                        {min: 42, max: 42, pontos: 5.00},
+                        {min: 43, max: 45, pontos: 6.00},
+                        {min: 46, max: 46, pontos: 7.00},
+                        {min: 47, max: 49, pontos: 7.50},
+                        {min: 50, max: 52, pontos: 8.00},
+                        {min: 53, max: 55, pontos: 8.50},
+                        {min: 56, max: 58, pontos: 9.00},
+                        {min: 59, max: 61, pontos: 9.50},
+                        {min: 62, max: 999, pontos: 10.00}
+                    ]
+                },
+                'ate30': {
+                    '2400m': [
+                        {min: 11*60+48, max: 12*60+34, pontos: 5.00},
+                        {min: 11*60+1, max: 11*60+47, pontos: 6.00},
+                        {min: 11*60, max: 11*60, pontos: 7.00},
+                        {min: 10*60+36, max: 10*60+59, pontos: 7.50},
+                        {min: 10*60+12, max: 10*60+35, pontos: 8.00},
+                        {min: 9*60+48, max: 10*60+11, pontos: 8.50},
+                        {min: 9*60+24, max: 9*60+47, pontos: 9.00},
+                        {min: 9*60+1, max: 9*60+23, pontos: 9.50},
+                        {min: 0, max: 9*60, pontos: 10.00}
+                    ],
+                    '50m': [
+                        {min: 7.61, max: 7.80, pontos: 5.00},
+                        {min: 7.41, max: 7.60, pontos: 6.00},
+                        {min: 7.40, max: 7.40, pontos: 7.00},
+                        {min: 7.30, max: 7.39, pontos: 7.50},
+                        {min: 7.20, max: 7.29, pontos: 8.00},
+                        {min: 7.10, max: 7.19, pontos: 8.50},
+                        {min: 7.00, max: 7.09, pontos: 9.00},
+                        {min: 6.90, max: 6.99, pontos: 9.50},
+                        {min: 0, max: 6.89, pontos: 10.00}
+                    ],
+                    'barra': [
+                        {min: 4, max: 4, pontos: 5.00},
+                        {min: 5, max: 5, pontos: 6.00},
+                        {min: 6, max: 6, pontos: 7.00},
+                        {min: 7, max: 8, pontos: 7.50},
+                        {min: 9, max: 10, pontos: 8.00},
+                        {min: 11, max: 12, pontos: 8.50},
+                        {min: 13, max: 14, pontos: 9.00},
+                        {min: 15, max: 16, pontos: 9.50},
+                        {min: 17, max: 999, pontos: 10.00}
+                    ],
+                    'abdominal': [
+                        {min: 46, max: 46, pontos: 5.00},
+                        {min: 47, max: 49, pontos: 6.00},
+                        {min: 50, max: 50, pontos: 7.00},
+                        {min: 51, max: 53, pontos: 7.50},
+                        {min: 54, max: 56, pontos: 8.00},
+                        {min: 57, max: 59, pontos: 8.50},
+                        {min: 60, max: 62, pontos: 9.00},
+                        {min: 63, max: 65, pontos: 9.50},
+                        {min: 66, max: 999, pontos: 10.00}
+                    ]
+                }
+            }
+        };
+
+        // Armazenamento de dados
+        let pessoas = JSON.parse(localStorage.getItem('pessoas')) || [];
+        let notas = JSON.parse(localStorage.getItem('notas')) || [];
+
+        // Elementos DOM
+        const formPessoa = document.getElementById('form-pessoa');
+        const formNotas = document.getElementById('form-notas');
+        const corpoTabelaPessoas = document.getElementById('corpo-tabela-pessoas');
+        const corpoTabelaResultados = document.getElementById('corpo-tabela-resultados');
+        const pessoaSelect = document.getElementById('pessoa-select');
+        const resultadoCadastro = document.getElementById('resultado-cadastro');
+        const resultadoNotas = document.getElementById('resultado-notas');
+        const modal = document.getElementById('modal-detalhes');
+        const closeModal = document.querySelector('.close');
+        const conteudoModal = document.getElementById('conteudo-modal');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Funções de utilidade
+        function converterTempoParaSegundos(tempoStr) {
+            if (!tempoStr) return null;
+            
+            const partes = tempoStr.split(':');
+            if (partes.length !== 2) return null;
+            
+            const minutos = parseInt(partes[0]);
+            const segundos = parseInt(partes[1]);
+            
+            if (isNaN(minutos) || isNaN(segundos)) return null;
+            
+            return minutos * 60 + segundos;
+        }
+
+        function obterFaixaEtaria(idade) {
+            return idade > 30 ? 'mais30' : 'ate30';
+        }
+
+        function calcularPontuacao(sexo, faixaEtaria, modalidade, valor) {
+            if (valor === null || valor === undefined || valor === '') return null;
+            
+            const tabela = tabelasPontuacao[sexo][faixaEtaria][modalidade];
+            
+            for (const faixa of tabela) {
+                if (valor >= faixa.min && valor <= faixa.max) {
+                    return faixa.pontos;
+                }
+            }
+            
+            return 0;
+        }
+
+        function formatarTempo(segundos) {
+            if (segundos === null) return '-';
+            const minutos = Math.floor(segundos / 60);
+            const segs = segundos % 60;
+            return `${minutos}:${segs < 10 ? '0' : ''}${segs}`;
+        }
+
+        // Funções de manipulação de dados
+        function salvarPessoa(nome, sexo, idade) {
+            const id = Date.now().toString();
+            const pessoa = {
+                id,
+                nome,
+                sexo,
+                idade: parseInt(idade),
+                faixaEtaria: obterFaixaEtaria(parseInt(idade))
+            };
+            
+            pessoas.push(pessoa);
+            localStorage.setItem('pessoas', JSON.stringify(pessoas));
+            return pessoa;
+        }
+
+        function salvarNotas(pessoaId, corrida2400, corrida50, barra, abdominal) {
+            // Remover notas anteriores da mesma pessoa
+            notas = notas.filter(nota => nota.pessoaId !== pessoaId);
+            
+            const pessoa = pessoas.find(p => p.id === pessoaId);
+            if (!pessoa) return null;
+            
+            const tempo2400Seg = converterTempoParaSegundos(corrida2400);
+            
+            const pontuacao2400 = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, '2400m', tempo2400Seg);
+            const pontuacao50 = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, '50m', parseFloat(corrida50));
+            const pontuacaoBarra = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, 'barra', parseInt(barra));
+            const pontuacaoAbdominal = calcularPontuacao(pessoa.sexo, pessoa.faixaEtaria, 'abdominal', parseInt(abdominal));
+            
+            const pontuacoes = [pontuacao2400, pontuacao50, pontuacaoBarra, pontuacaoAbdominal];
+            const pontuacoesValidas = pontuacoes.filter(p => p !== null);
+            const media = pontuacoesValidas.length > 0 ? 
+                pontuacoesValidas.reduce((a, b) => a + b, 0) / pontuacoesValidas.length : 0;
+            
+            const nota = {
+                pessoaId,
+                corrida2400: tempo2400Seg,
+                corrida50: corrida50 ? parseFloat(corrida50) : null,
+                barra: barra ? parseInt(barra) : null,
+                abdominal: abdominal ? parseInt(abdominal) : null,
+                pontuacao2400,
+                pontuacao50,
+                pontuacaoBarra,
+                pontuacaoAbdominal,
+                media: parseFloat(media.toFixed(2))
+            };
+            
+            notas.push(nota);
+            localStorage.setItem('notas', JSON.stringify(notas));
+            return nota;
+        }
+
+        function atualizarListaPessoas() {
+            corpoTabelaPessoas.innerHTML = '';
+            
+            if (pessoas.length === 0) {
+                corpoTabelaPessoas.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhuma pessoa cadastrada</td></tr>';
+                return;
+            }
+            
+            pessoas.forEach(pessoa => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${pessoa.nome}</td>
+                    <td>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</td>
+                    <td>${pessoa.idade}</td>
+                    <td>${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</td>
+                    <td class="actions">
+                        <button class="btn" onclick="atribuirNotas('${pessoa.id}')">Atribuir Notas</button>
+                        <button class="btn btn-danger" onclick="removerPessoa('${pessoa.id}')">Remover</button>
+                    </td>
+                `;
+                corpoTabelaPessoas.appendChild(tr);
+            });
+        }
+
+        function atualizarSelectPessoas() {
+            pessoaSelect.innerHTML = '<option value="">Selecione uma pessoa</option>';
+            
+            pessoas.forEach(pessoa => {
+                const option = document.createElement('option');
+                option.value = pessoa.id;
+                option.textContent = `${pessoa.nome} (${pessoa.sexo === 'M' ? 'M' : 'F'}, ${pessoa.idade} anos)`;
+                pessoaSelect.appendChild(option);
+            });
+        }
+
+        function atualizarTabelaResultados() {
+            corpoTabelaResultados.innerHTML = '';
+            
+            if (notas.length === 0) {
+                corpoTabelaResultados.innerHTML = '<tr><td colspan="8" style="text-align: center;">Nenhum resultado disponível</td></tr>';
+                return;
+            }
+            
+            notas.forEach(nota => {
+                const pessoa = pessoas.find(p => p.id === nota.pessoaId);
+                if (!pessoa) return;
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${pessoa.nome}</td>
+                    <td>${pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</td>
+                    <td>${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</td>
+                    <td>${nota.corrida2400 ? formatarTempo(nota.corrida2400) : '-'} (${nota.pontuacao2400 !== null ? nota.pontuacao2400.toFixed(2) : '-'})</td>
+                    <td>${nota.corrida50 ? nota.corrida50.toFixed(2) + 's' : '-'} (${nota.pontuacao50 !== null ? nota.pontuacao50.toFixed(2) : '-'})</td>
+                    <td>${nota.barra || '-'} (${nota.pontuacaoBarra !== null ? nota.pontuacaoBarra.toFixed(2) : '-'})</td>
+                    <td>${nota.abdominal || '-'} (${nota.pontuacaoAbdominal !== null ? nota.pontuacaoAbdominal.toFixed(2) : '-'})</td>
+                    <td>${nota.media.toFixed(2)}</td>
+                `;
+                corpoTabelaResultados.appendChild(tr);
+            });
+        }
+
+        function mostrarResultado(elemento, mensagem, tipo) {
+            elemento.textContent = mensagem;
+            elemento.className = 'resultado ' + tipo;
+            elemento.style.display = 'block';
+            
+            setTimeout(() => {
+                elemento.style.display = 'none';
+            }, 5000);
+        }
+
+        // Funções globais para uso nos eventos
+        window.atribuirNotas = function(pessoaId) {
+            // Mudar para a aba de notas
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            document.querySelector('.tab[data-tab="notas"]').classList.add('active');
+            document.getElementById('notas').classList.add('active');
+            
+            // Selecionar a pessoa
+            pessoaSelect.value = pessoaId;
+        };
+
+        window.removerPessoa = function(pessoaId) {
+            if (confirm('Tem certeza que deseja remover esta pessoa?')) {
+                pessoas = pessoas.filter(p => p.id !== pessoaId);
+                notas = notas.filter(n => n.pessoaId !== pessoaId);
+                
+                localStorage.setItem('pessoas', JSON.stringify(pessoas));
+                localStorage.setItem('notas', JSON.stringify(notas));
+                
+                atualizarListaPessoas();
+                atualizarSelectPessoas();
+                atualizarTabelaResultados();
+                
+                mostrarResultado(resultadoCadastro, 'Pessoa removida com sucesso!', 'success');
+            }
+        };
+
+        // Event Listeners
+        formPessoa.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nome = document.getElementById('nome').value;
+            const sexo = document.getElementById('sexo').value;
+            const idade = document.getElementById('idade').value;
+            
+            if (!nome || !sexo || !idade) {
+                mostrarResultado(resultadoCadastro, 'Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+            
+            salvarPessoa(nome, sexo, idade);
+            atualizarListaPessoas();
+            atualizarSelectPessoas();
+            
+            formPessoa.reset();
+            mostrarResultado(resultadoCadastro, 'Pessoa cadastrada com sucesso!', 'success');
+        });
+
+        formNotas.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const pessoaId = pessoaSelect.value;
+            const corrida2400 = document.getElementById('corrida-2400').value;
+            const corrida50 = document.getElementById('corrida-50').value;
+            const barra = document.getElementById('barra').value;
+            const abdominal = document.getElementById('abdominal').value;
+            
+            if (!pessoaId) {
+                mostrarResultado(resultadoNotas, 'Por favor, selecione uma pessoa!', 'error');
+                return;
+            }
+            
+            if (!corrida2400 && !corrida50 && !barra && !abdominal) {
+                mostrarResultado(resultadoNotas, 'Por favor, preencha pelo menos um campo de desempenho!', 'error');
+                return;
+            }
+            
+            const nota = salvarNotas(pessoaId, corrida2400, corrida50, barra, abdominal);
+            
+            if (nota) {
+                atualizarTabelaResultados();
+                formNotas.reset();
+                
+                // Exibir detalhes da pontuação
+                const pessoa = pessoas.find(p => p.id === pessoaId);
+                let detalhes = `<h3>Pontuação de ${pessoa.nome}</h3>`;
+                detalhes += `<p><strong>Faixa:</strong> ${pessoa.faixaEtaria === 'mais30' ? 'Mais de 30 anos' : 'Até 30 anos'}</p>`;
+                detalhes += `<ul>`;
+                
+                if (nota.pontuacao2400 !== null) {
+                    detalhes += `<li><strong>Corrida 2400m:</strong> ${formatarTempo(nota.corrida2400)} - ${nota.pontuacao2400.toFixed(2)} pontos</li>`;
+                }
+                if (nota.pontuacao50 !== null) {
+                    detalhes += `<li><strong>Corrida 50m:</strong> ${nota.corrida50.toFixed(2)}s - ${nota.pontuacao50.toFixed(2)} pontos</li>`;
+                }
+                if (nota.pontuacaoBarra !== null) {
+                    detalhes += `<li><strong>Barra Fixa:</strong> ${nota.barra} repetições - ${nota.pontuacaoBarra.toFixed(2)} pontos</li>`;
+                }
+                if (nota.pontuacaoAbdominal !== null) {
+                    detalhes += `<li><strong>Abdominal:</strong> ${nota.abdominal} repetições - ${nota.pontuacaoAbdominal.toFixed(2)} pontos</li>`;
+                }
+                
+                detalhes += `</ul>`;
+                detalhes += `<p><strong>Média Final:</strong> ${nota.media.toFixed(2)}</p>`;
+                
+                conteudoModal.innerHTML = detalhes;
+                modal.style.display = 'flex';
+                
+                mostrarResultado(resultadoNotas, 'Notas atribuídas com sucesso!', 'success');
+            } else {
+                mostrarResultado(resultadoNotas, 'Erro ao salvar as notas!', 'error');
+            }
+        });
+
+        // Eventos das abas
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Evento do modal
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            atualizarListaPessoas();
+            atualizarSelectPessoas();
+            atualizarTabelaResultados();
+        });
+    </script>
+</body>
+</html>
